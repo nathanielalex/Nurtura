@@ -1,6 +1,9 @@
 package com.example.nurtura.model;
 
+import com.google.firebase.firestore.Exclude;
+
 public class Article {
+    @Exclude
     private String id;
     private String title;
     private String subtitle;

@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.nurtura.LoginActivity;
 import com.example.nurtura.R;
 import com.example.nurtura.adapter.ChildAdapter;
+import com.example.nurtura.auth.AuthRepository;
 import com.example.nurtura.model.Child;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -35,14 +36,17 @@ public class ProfileFragment extends Fragment {
     ArrayList<Child> children;
     ChildAdapter adapter;
 
+    AuthRepository authRepository;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 //        return super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        authRepository = new AuthRepository();
 
         Button signOutButton = view.findViewById(R.id.btnSignOut);
-        signOutButton.setOnClickListener(v -> LoginActivity.signOut(requireContext()));
+        signOutButton.setOnClickListener(v -> authRepository.signOut(requireContext()));
 
         TextView txtMotherName = view.findViewById(R.id.txtMotherName);
 
@@ -56,7 +60,7 @@ public class ProfileFragment extends Fragment {
 
 
         if (user != null) {
-            txtMotherName.setText(user.getDisplayName());
+            txtMotherName.setText(user.getDisplayName()); //TODO: ambil user dari firestore
             DocumentReference parentRef = db.collection("users").document(user.getUid());
             db.collection("children")
                     .whereEqualTo("parentId", parentRef)

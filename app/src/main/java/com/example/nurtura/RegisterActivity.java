@@ -1,6 +1,10 @@
 package com.example.nurtura;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,7 +12,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.nurtura.auth.AuthRepository;
+
 public class RegisterActivity extends AppCompatActivity {
+    private AuthRepository authRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,5 +27,28 @@ public class RegisterActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        authRepository = new AuthRepository();
+
+        EditText nameField = findViewById(R.id.etName);
+        EditText emailField = findViewById(R.id.etEmail);
+        EditText passwordField = findViewById(R.id.etPassword);
+        Button registerBtn = findViewById(R.id.btnRegister);
+
+        registerBtn.setOnClickListener(v -> {
+            String email = emailField.getText().toString().trim();
+            String password = passwordField.getText().toString().trim();
+            String name = nameField.getText().toString().trim();
+            authRepository.registerUser(this, email, password, name, success -> {
+                if (success) {
+                    // registration succeeded
+                    Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Toast.makeText(RegisterActivity.this, "Registration Failed.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        });
+
     }
 }

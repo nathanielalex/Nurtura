@@ -1,5 +1,6 @@
 package com.example.nurtura.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,20 +14,17 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.nurtura.LoginActivity;
+import com.example.nurtura.AddChildActivity;
 import com.example.nurtura.R;
 import com.example.nurtura.adapter.ChildAdapter;
 import com.example.nurtura.auth.AuthRepository;
 import com.example.nurtura.model.Child;
 import com.example.nurtura.model.User;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -49,6 +47,13 @@ public class ProfileFragment extends Fragment {
         Button signOutButton = view.findViewById(R.id.btnSignOut);
         signOutButton.setOnClickListener(v -> authRepository.signOut(requireContext()));
 
+        Button btnAddChild = view.findViewById(R.id.btnAddChild);
+
+        btnAddChild.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), AddChildActivity.class);
+            startActivity(intent);
+        });
+
         TextView txtMotherName = view.findViewById(R.id.txtMotherName);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -67,14 +72,10 @@ public class ProfileFragment extends Fragment {
                     .addOnSuccessListener(documentSnapshot -> {
 
                         if (documentSnapshot.exists()) {
-                            // Convert Firestore document to a User object (your own model class)
                             User parent = documentSnapshot.toObject(User.class);
-
-                            // Example: display name from Firestore user data
                             txtMotherName.setText(parent.getName());
                         }
 
-                        // 2. Now query the children for this parent
                         DocumentReference parentRef = db.collection("users")
                                 .document(user.getUid());
 

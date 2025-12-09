@@ -18,6 +18,7 @@ import com.example.nurtura.R;
 import com.example.nurtura.adapter.ChildAdapter;
 import com.example.nurtura.auth.AuthRepository;
 import com.example.nurtura.model.Child;
+import com.example.nurtura.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -60,23 +61,37 @@ public class ProfileFragment extends Fragment {
 
 
         if (user != null) {
-            txtMotherName.setText(user.getDisplayName()); //TODO: ambil user dari firestore
-            DocumentReference parentRef = db.collection("users").document(user.getUid());
-            db.collection("children")
-                    .whereEqualTo("parentId", parentRef)
+            db.collection("users")
+                    .document(user.getUid())
                     .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if(task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    Child child = document.toObject(Child.class);
-                                    children.add(child);
-                                }
-                                adapter = new ChildAdapter(children);
-                                recyclerView.setAdapter(adapter);
-                            }
+                    .addOnSuccessListener(documentSnapshot -> {
+
+                        if (documentSnapshot.exists()) {
+                            // Convert Firestore document to a User object (your own model class)
+                            User parent = documentSnapshot.toObject(User.class);
+
+                            // Example: display name from Firestore user data
+                            txtMotherName.setText(parent.getName());
                         }
+
+                        // 2. Now query the children for this parent
+                        DocumentReference parentRef = db.collection("users")
+                                .document(user.getUid());
+
+                        db.collection("children")
+                                .whereEqualTo("parentId", parentRef)
+                                .get()
+                                .addOnSuccessListener(querySnapshot -> {
+
+                                    for (QueryDocumentSnapshot doc : querySnapshot) {
+                                        Child child = doc.toObject(Child.class);
+                                        children.add(child);
+                                    }
+
+                                    adapter = new ChildAdapter(children);
+                                    recyclerView.setAdapter(adapter);
+
+                                });
                     });
         }
 

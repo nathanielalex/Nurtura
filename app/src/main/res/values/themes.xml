@@ -1,9 +1,23 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
     <style name="Base.Theme.Nurtura" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/pink_pastel</item>
+        <item name="colorSecondary">@color/blue_pastel</item>
+
+        <item name="android:windowBackground">@color/linen_white</item>
+        <item name="android:textColor">@color/slate_navy</item>
+
+        <item name="editTextStyle">@style/Widget.Nurtura.EditText</item>
+        <item name="buttonStyle">@style/Widget.Nurtura.Button.Primary</item>
+
+        <item name="bottomNavigationStyle">@style/Widget.Nurtura.BottomNavigationView</item>
     </style>
 
     <style name="Theme.Nurtura" parent="Base.Theme.Nurtura" />
+
+    <style name="Widget.Nurtura.BottomNavigationView" parent="Widget.Design.BottomNavigationView">
+        <item name="itemIconTint">@drawable/bottom_nav_color_selector</item>
+        <item name="itemTextColor">@drawable/bottom_nav_color_selector</item>
+        <item name="android:background">@color/linen_white</item>
+        <item name="elevation">8dp</item>
+    </style>
 </resources>

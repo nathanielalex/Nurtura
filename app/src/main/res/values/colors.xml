@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
+    <color name="pink_pastel">#FDE0E9</color>
+    <color name="blue_pastel">#C9E7FF</color>
+    <color name="slate_navy">#243446</color>
+    <color name="soft_graphite">#4C5A66</color>
+
+    <color name="linen_white">#FAF7F5</color>
+    <color name="taupe_mist">#D8D2CD</color>
+
+    <color name="gentle_coral">#FFB8A8</color>
+    <color name="sage_gray_green">#BFD4C4</color>
+    <color name="honey_gold">#F6D27A</color>
+
     <color name="white">#FFFFFFFF</color>
 </resources>

@@ -5,8 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f8f9fa"
-    android:fillViewport="true">
+    android:background="@color/linen_white"
+    android:fillViewport="true"
+    tools:context=".ui.profile.ProfileFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,46 +18,41 @@
         android:paddingEnd="20dp"
         android:paddingBottom="24dp">
 
-        <!-- Page Title -->
         <TextView
+            style="@style/Widget.Nurtura.TextView.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            android:fontFamily="sans-serif-medium"
             android:text="Profile"
-            android:textColor="#324355"
-            android:textSize="28sp"
-            android:textStyle="bold" />
+            android:textColor="@color/slate_navy"/>
 
-        <!-- MOTHER CARD -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            app:cardBackgroundColor="@android:color/white"
+            app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="24dp"
             app:cardElevation="4dp"
-            app:strokeWidth="0dp">
+            app:strokeColor="@color/taupe_mist"
+            app:strokeWidth="1dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="24dp">
 
-                <!-- Avatar Image (Circular) -->
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/imgAvatarMother"
                     android:layout_width="72dp"
                     android:layout_height="72dp"
-                    android:background="#f0f0f0"
+                    android:background="@color/taupe_mist"
                     android:scaleType="centerCrop"
                     android:src="@android:drawable/ic_menu_myplaces"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
-                    app:tint="#888888" />
+                    app:tint="@color/soft_graphite" />
 
-                <!-- Role Label -->
                 <TextView
                     android:id="@+id/lblMotherRole"
                     android:layout_width="wrap_content"
@@ -67,13 +63,12 @@
                     android:letterSpacing="0.05"
                     android:text="MOTHER"
                     android:textAllCaps="true"
-                    android:textColor="#324355"
+                    android:textColor="@color/soft_graphite"
                     android:textSize="12sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@id/imgAvatarMother"
                     app:layout_constraintTop_toTopOf="@id/imgAvatarMother" />
 
-                <!-- Name -->
                 <TextView
                     android:id="@+id/txtMotherName"
                     android:layout_width="0dp"
@@ -82,13 +77,12 @@
                     android:layout_marginTop="4dp"
                     android:fontFamily="sans-serif-medium"
                     android:text="Maria Santos"
-                    android:textColor="#324355"
+                    android:textColor="@color/slate_navy"
                     android:textSize="20sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/imgAvatarMother"
                     app:layout_constraintTop_toBottomOf="@id/lblMotherRole" />
 
-                <!-- Action Buttons Container -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -98,39 +92,25 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/imgAvatarMother">
 
-                    <!-- Button: Edit Profile (Primary Color) -->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnEditMother"
-                        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                        style="@style/Widget.Nurtura.Button.Primary"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
                         android:layout_weight="1"
-                        android:paddingTop="12dp"
-                        android:paddingBottom="12dp"
-                        android:text="Edit Profile"
-                        android:textAllCaps="false"
-                        android:textColor="#324355"
-                        app:backgroundTint="#fde0e9"
-                        app:cornerRadius="12dp"
-                        app:elevation="0dp" />
+                        android:text="Edit Profile"/>
 
-                    <!-- Button: Add Child (Secondary Color) -->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnAddChild"
-                        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                        style="@style/Widget.Nurtura.Button.Primary"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_weight="1"
-                        android:paddingTop="12dp"
-                        android:paddingBottom="12dp"
                         android:text="Add Child"
-                        android:textAllCaps="false"
-                        android:textColor="#324355"
-                        app:backgroundTint="#c9e7ff"
-                        app:cornerRadius="12dp"
-                        app:elevation="0dp" />
+                        android:textColor="@color/slate_navy"
+                        app:backgroundTint="@color/blue_pastel"/>
 
                 </LinearLayout>
 
@@ -147,17 +127,10 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSignOut"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
+            style="@style/Widget.Nurtura.Button.Secondary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:letterSpacing="0"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:text="Sign Out"
-            android:textAllCaps="false"
-            android:textColor="#324355"
-            app:backgroundTint="#fde0e9"
-            app:cornerRadius="12dp" />
+            android:text="Sign Out" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

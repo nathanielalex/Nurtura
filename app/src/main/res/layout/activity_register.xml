@@ -1,99 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingHorizontal="24dp"
+    android:layout_marginHorizontal="32dp"
     tools:context=".RegisterActivity">
 
     <TextView
         android:id="@+id/txt_appname"
+        style="@style/Widget.Nurtura.TextView.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
-        android:fontFamily="@font/poppins_black"
-        android:text="NURTURA"
-        android:textColor="#FF4081"
-        android:textSize="32sp"
-        android:textStyle="bold" />
+        android:text="NURTURA" />
 
     <TextView
         android:id="@+id/txt_greetings"
+        style="@style/Widget.Nurtura.TextView.Subtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:fontFamily="@font/poppins_semibold"
-        android:text="Welcome, Mom!"
-        android:textSize="18sp" />
+        android:text="Welcome, Mom!" />
 
     <EditText
         android:id="@+id/etName"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
+        style="@style/Widget.Nurtura.EditText"
         android:layout_marginTop="40dp"
-        android:background="@drawable/edittext_bg"
+        android:autofillHints="name"
         android:hint="Full Name"
-        android:inputType="textPersonName"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp" />
+        android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/etEmail"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
+        style="@style/Widget.Nurtura.EditText"
         android:layout_marginTop="16dp"
-        android:background="@drawable/edittext_bg"
+        android:autofillHints="emailAddress"
         android:hint="Email Address"
-        android:inputType="textEmailAddress"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp" />
+        android:inputType="textEmailAddress" />
 
     <EditText
         android:id="@+id/etPassword"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
+        style="@style/Widget.Nurtura.EditText"
         android:layout_marginTop="16dp"
-        android:background="@drawable/edittext_bg"
+        android:autofillHints="password"
         android:hint="Password"
-        android:inputType="textPassword"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp" />
+        android:inputType="textPassword" />
 
     <EditText
         android:id="@+id/etVerifyPassword"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
+        style="@style/Widget.Nurtura.EditText"
         android:layout_marginTop="16dp"
-        android:background="@drawable/edittext_bg"
+        android:autofillHints="password"
         android:hint="Confirm Password"
-        android:inputType="textPassword"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp" />
+        android:inputType="textPassword" />
 
     <Button
         android:id="@+id/btnRegister"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
+        style="@style/Widget.Nurtura.Button.Primary"
         android:layout_marginTop="24dp"
-        android:background="@drawable/btn_login_bg"
-        android:backgroundTint="@null"
-        android:text="Create Account Securely"
-        android:textAllCaps="false"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:backgroundTint="@null" />
+        android:text="Create Account Securely" />
 
     <TextView
         android:id="@+id/tvLogin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/Widget.Nurtura.TextView.Link"
         android:layout_marginTop="24dp"
-        android:gravity="center"
-        android:text="Already have an account? Login Now"
-        android:textColor="#555555"
-        android:textSize="16sp" />
+        android:text="Already have an account? Login Now" />
 
 </LinearLayout>

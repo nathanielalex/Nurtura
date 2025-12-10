@@ -110,7 +110,7 @@ public class AddChildActivity extends AppCompatActivity {
                     public void onSuccess() {
                         Toast.makeText(AddChildActivity.this,
                                 "Child added successfully!", Toast.LENGTH_SHORT).show();
-                        finish(); // go back
+                        finish();
                     }
 
                     @Override

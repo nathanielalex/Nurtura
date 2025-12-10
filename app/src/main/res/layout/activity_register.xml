@@ -5,135 +5,95 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity"
     android:orientation="vertical"
-    >
+    android:paddingHorizontal="24dp"
+    tools:context=".RegisterActivity">
 
     <TextView
         android:id="@+id/txt_appname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
         android:fontFamily="@font/poppins_black"
-
-        android:layout_marginTop="45dp"
-        android:layout_marginLeft="40dp"
         android:text="NURTURA"
         android:textColor="#FF4081"
-        android:textSize="28sp"
+        android:textSize="32sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/txt_greetings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome,Mom!"
-        android:layout_marginLeft="40dp"
-        android:textSize="18sp"
+        android:layout_marginTop="4dp"
         android:fontFamily="@font/poppins_semibold"
-        android:layout_marginTop="2dp"
-        />
+        android:text="Welcome, Mom!"
+        android:textSize="18sp" />
 
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="353dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="28dp"
+    <EditText
+        android:id="@+id/etName"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
         android:layout_marginTop="40dp"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="8dp"
-        app:cardUseCompatPadding="true">
+        android:background="@drawable/edittext_bg"
+        android:hint="Full Name"
+        android:inputType="textPersonName"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp" />
 
-        <EditText
-            android:id="@+id/etName"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@drawable/edittext_bg"
-            android:hint="Full Name"
-            android:padding="8dp" />
+    <EditText
+        android:id="@+id/etEmail"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/edittext_bg"
+        android:hint="Email Address"
+        android:inputType="textEmailAddress"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp" />
 
-    </com.google.android.material.card.MaterialCardView>
+    <EditText
+        android:id="@+id/etPassword"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/edittext_bg"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp" />
 
-
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="351dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="28dp"
-        android:layout_marginTop="0dp"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="8dp"
-        app:cardUseCompatPadding="true">
-
-        <EditText
-            android:id="@+id/etEmail"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@drawable/edittext_bg"
-            android:hint="Email Address"
-            android:padding="8dp" />
-    </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="351dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="28dp"
-        android:layout_marginTop="0dp"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="8dp"
-        app:cardUseCompatPadding="true">
-
-        <EditText
-            android:id="@+id/etPassword"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@drawable/edittext_bg"
-            android:hint="Password"
-            android:padding="8dp" />
-    </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="351dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="28dp"
-        android:layout_marginTop="0dp"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="8dp"
-        app:cardUseCompatPadding="true">
-
-        <EditText
-            android:id="@+id/etVerifyPassword"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@drawable/edittext_bg"
-            android:hint="Confirm Password"
-            android:padding="8dp" />
-    </com.google.android.material.card.MaterialCardView>
-
-    <!-- Bottom Text -->
+    <EditText
+        android:id="@+id/etVerifyPassword"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/edittext_bg"
+        android:hint="Confirm Password"
+        android:inputType="textPassword"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp" />
 
     <Button
         android:id="@+id/btnRegister"
-        android:layout_width="328dp"
-        android:layout_height="64dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginRight="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="24dp"
         android:background="@drawable/btn_login_bg"
         android:backgroundTint="@null"
         android:text="Create Account Securely"
         android:textAllCaps="false"
         android:textSize="16sp"
-
         android:textStyle="bold"
         app:backgroundTint="@null" />
 
     <TextView
         android:id="@+id/tvLogin"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:gravity="center"
         android:text="Already have an account? Login Now"
-        android:textSize="18sp"
-        android:layout_marginLeft="58dp"
-        android:layout_marginTop="10dp"
         android:textColor="#555555"
-        android:gravity="center" />
+        android:textSize="16sp" />
 
 </LinearLayout>

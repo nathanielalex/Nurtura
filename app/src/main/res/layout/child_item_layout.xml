@@ -81,7 +81,7 @@
             android:text="Edit Information"
             android:textAllCaps="false"
             android:textColor="#324355"
-            app:backgroundTint="#f4f7f9"
+            app:backgroundTint="#fde0e9"
             app:cornerRadius="12dp"
             app:layout_constraintTop_toBottomOf="@id/imgAvatarChild"
             app:layout_constraintStart_toStartOf="parent"

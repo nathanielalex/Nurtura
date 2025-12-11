@@ -133,7 +133,7 @@ public class AuthRepository {
                     }
                 });
     }
-    public void registerUser(Context context, String email, String password, String name, RegistrationCallback callback) {
+    public void registerUser(Context context, String email, String password, String name, String phone, RegistrationCallback callback) {
         if (email.isEmpty() || password.isEmpty()) {
             Toast.makeText(context, "Please fill in all fields", Toast.LENGTH_SHORT).show();
             callback.onComplete(false);
@@ -147,7 +147,7 @@ public class AuthRepository {
                         Log.d(TAG, "createUserWithEmail:success");
                         FirebaseUser user = mAuth.getCurrentUser();
                         if(user != null) {
-                            userRepository.registerUserToFirestore(user, name, new UserRepository.FirestoreCallback() {
+                            userRepository.registerUserToFirestore(user, name, phone, new UserRepository.FirestoreCallback() {
                                 @Override
                                 public void onSuccess() {
                                     Toast.makeText(context, "Registration successful!", Toast.LENGTH_SHORT).show();

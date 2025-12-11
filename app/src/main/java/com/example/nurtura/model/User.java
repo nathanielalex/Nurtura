@@ -1,6 +1,5 @@
 package com.example.nurtura.model;
 
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.ServerTimestamp;
 
@@ -13,12 +12,16 @@ public class User {
     private String email;
     @ServerTimestamp
     private Date lastLogin;
+    private String phoneNumber;
+    private String role;
 
-    public User(String id, String name, String email, Date lastLogin) {
+    public User(String id, String name, String email, Date lastLogin, String phoneNumber, String role) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.lastLogin = lastLogin;
+        this.phoneNumber = phoneNumber;
+        this.role = role;
     }
 
     public User() {}
@@ -53,5 +56,21 @@ public class User {
 
     public void setLastLogin(Date lastLogin) {
         this.lastLogin = lastLogin;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

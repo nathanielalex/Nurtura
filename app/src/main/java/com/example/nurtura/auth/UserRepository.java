@@ -27,11 +27,13 @@ public class UserRepository {
                 .addOnFailureListener(callback::onFailure);
     }
 
-    public void registerUserToFirestore(FirebaseUser user, String name, FirestoreCallback callback) {
+    public void registerUserToFirestore(FirebaseUser user, String name, String phone, FirestoreCallback callback) {
         Map<String, Object> userData = new HashMap<>();
         userData.put("uid", user.getUid());
         userData.put("name", name);
         userData.put("email", user.getEmail());
+        userData.put("phoneNumber", phone);
+        userData.put("role", "patient");
         userData.put("last_login", com.google.firebase.Timestamp.now());
 
         db.collection("users").document(user.getUid())

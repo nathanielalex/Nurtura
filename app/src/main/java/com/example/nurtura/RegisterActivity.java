@@ -33,13 +33,15 @@ public class RegisterActivity extends AppCompatActivity {
         EditText nameField = findViewById(R.id.etName);
         EditText emailField = findViewById(R.id.etEmail);
         EditText passwordField = findViewById(R.id.etPassword);
+        EditText phoneField = findViewById(R.id.etPhoneNumber);
         Button registerBtn = findViewById(R.id.btnRegister);
 
         registerBtn.setOnClickListener(v -> {
             String email = emailField.getText().toString().trim();
             String password = passwordField.getText().toString().trim();
             String name = nameField.getText().toString().trim();
-            authRepository.registerUser(this, email, password, name, success -> {
+            String phone = phoneField.getText().toString().trim();
+            authRepository.registerUser(this, email, password, name, phone, success -> {
                 if (success) {
                     // registration succeeded
                     Intent intent = new Intent(RegisterActivity.this, MainActivity.class);

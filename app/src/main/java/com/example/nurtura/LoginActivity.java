@@ -18,6 +18,7 @@ import com.example.nurtura.auth.AuthRepository;
 import com.example.nurtura.auth.GoogleSignInManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -48,11 +49,10 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn.setOnClickListener(v -> {
             String email = emailField.getText().toString().trim();
             String password = passwordField.getText().toString().trim();
-            authRepository.loginUser(this, email, password, success -> {
+            authRepository.loginUser(this, email, password, (success, userId) -> {
                 if(success) {
                     Log.d(TAG, "signInWithEmail:success");
-                    startActivity(new Intent(this, MainActivity.class));
-                    finish();
+                    authorizeRole(userId);
                 } else {
                     Log.w(TAG, "signInWithEmail:failure");
                     Toast.makeText(LoginActivity.this, "Login Failed.", Toast.LENGTH_SHORT).show();
@@ -68,6 +68,32 @@ public class LoginActivity extends AppCompatActivity {
             Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
             startActivity(intent);
         });
+    }
+
+    private void authorizeRole(String userId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("users").document(userId).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if(documentSnapshot.exists()) {
+                        String role = documentSnapshot.getString("role");
+
+                        if("staff".equals(role)){
+                            Intent intent = new Intent(this, StaffActivity.class);
+                            startActivity(intent);
+                        } else if("patient".equals(role)) {
+                            Intent intent = new Intent(this, MainActivity.class);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(this, "Error: Unknown role", Toast.LENGTH_SHORT).show();
+                        }
+                        finish();
+                    } else {
+                        Toast.makeText(this, "User data not found", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Login Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
     }
 
     @Override

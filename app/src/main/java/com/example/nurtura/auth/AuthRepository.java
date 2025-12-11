@@ -27,7 +27,7 @@ public class AuthRepository {
     private UserRepository userRepository = new UserRepository();
 
     public interface LoginCallback {
-        void onComplete(boolean success);
+        void onComplete(boolean success, String userId);
     }
 
     public interface RegistrationCallback {
@@ -117,6 +117,9 @@ public class AuthRepository {
     public void loginUser(Context context, String email, String password, LoginCallback callback) {
         if (email.isEmpty() || password.isEmpty()) {
             Toast.makeText(context, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+            if (callback != null) {
+                callback.onComplete(false, null);
+            }
             return;
         }
 
@@ -125,11 +128,19 @@ public class AuthRepository {
                     if (task.isSuccessful()) {
                         // Sign in success
                         Log.d(TAG, "signInWithEmail:success");
-                        callback.onComplete(true);
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        if (user != null) {
+                            String userId = user.getUid();
+                            if (callback != null) {
+                                callback.onComplete(true, userId);
+                            }
+                        }
                     } else {
                         // If sign in fails
                         Log.w(TAG, "signInWithEmail:failure", task.getException());
-                        callback.onComplete(false);
+                        if (callback != null) {
+                            callback.onComplete(false, null);
+                        }
                     }
                 });
     }

@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Nurtura">
         <activity
+            android:name=".StaffChildDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MotherDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".StaffActivity"
             android:exported="false" />
         <activity
@@ -35,6 +41,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <service
             android:name=".service.NurturaFirebaseMessagingService"
             android:exported="false">

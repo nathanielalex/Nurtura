@@ -1,9 +1,12 @@
 package com.example.nurtura.repository;
 
+import com.example.nurtura.model.Child;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +15,10 @@ import java.util.Map;
 public class ChildRepository {
     public interface FirestoreCallback {
         void onSuccess();
+        void onFailure(Exception e);
+    }
+    public interface ChildrenCallback {
+        void onSuccess(List<Child> children);
         void onFailure(Exception e);
     }
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -38,5 +45,25 @@ public class ChildRepository {
                 .add(childData)
                 .addOnSuccessListener(documentReference -> callback.onSuccess())
                 .addOnFailureListener(e -> callback.onFailure(e));
+    }
+
+    public void getChildrenByParentId(String parentUid, ChildrenCallback callback) {
+        DocumentReference parentRef =
+                db.collection("users").document(parentUid);
+
+        db.collection("children")
+                .whereEqualTo("parentId", parentRef)
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    List<Child> children = new ArrayList<>();
+
+                    for (QueryDocumentSnapshot doc : querySnapshot) {
+                        Child child = doc.toObject(Child.class);
+                        children.add(child);
+                    }
+
+                    callback.onSuccess(children);
+                })
+                .addOnFailureListener(callback::onFailure);
     }
 }

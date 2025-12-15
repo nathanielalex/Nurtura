@@ -14,7 +14,6 @@
         android:layout_height="wrap_content"
         android:padding="20dp">
 
-        <!-- Avatar -->
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imgAvatarChild"
             android:layout_width="56dp"
@@ -69,7 +68,6 @@
                 android:textSize="14sp" />
         </LinearLayout>
 
-        <!-- Edit Button -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnEditChild"
             style="@style/Widget.MaterialComponents.Button.TextButton"

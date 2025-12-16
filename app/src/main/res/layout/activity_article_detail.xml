@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f8f9fa"
+    android:fillViewport="true"
+    tools:context=".service.ArticleDetailActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/ivArticleImage"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_launcher_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/viewOverlay"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="#95000000"
+            app:layout_constraintBottom_toBottomOf="@id/ivArticleImage"
+            app:layout_constraintTop_toTopOf="@id/ivArticleImage" />
+
+
+        <LinearLayout
+            android:id="@+id/headerTextContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp"
+            app:layout_constraintBottom_toBottomOf="@id/ivArticleImage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <!-- TITLE -->
+            <TextView
+                android:id="@+id/tvArticleTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:shadowColor="#80000000"
+                android:shadowDx="1"
+                android:shadowDy="1"
+                android:shadowRadius="2"
+                android:text="Fever &amp; Illness Management"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <!-- SUBTITLE / DESCRIPTION -->
+            <TextView
+                android:id="@+id/tvArticleDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="sans-serif"
+                android:shadowColor="#80000000"
+                android:shadowDx="1"
+                android:shadowDy="1"
+                android:shadowRadius="2"
+                android:text="What to do when temperature rises."
+                android:textColor="#E0E0E0"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <!-- 5. BODY CONTENT (Below the image) -->
+        <TextView
+            android:id="@+id/tvArticleContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="50dp"
+            android:fontFamily="sans-serif"
+            android:lineSpacingMultiplier="1.5"
+            android:text="When a child has a fever, it can be concerning for any parent. A fever is usually a sign that the body is fighting off an infection. Many times, a fever is not dangerous and can be a normal part of getting better. However, knowing how to manage a fever effectively can help your child feel more comfortable. It’s important to stay calm and keep a close eye on your child’s condition.  First, it’s essential to take your child's temperature to confirm that they have a fever. You can use a digital thermometer for accurate readings. A temperature of 100. 4°F (38°C) or higher is usually considered a fever. Make sure to check their temperature regularly, especially if they seem unwell. Keeping track of their temperature can help you understand how their illness is progressing.  When your child has a fever, ensure they stay hydrated. Fever can lead to sweating, which can cause them to lose fluid. Offer them plenty of water, clear soup, or electrolyte solutions. If your child refuses to drink, try offering ice chips or popsicles. Staying hydrated is important to help their body fight off the illness and feel better faster.  To make your child more comfortable, dress them in lightweight clothing and keep their room at a comfortable temperature. If they seem too hot, a lukewarm sponge bath can help cool them down. Avoid cold baths, as they can cause shivering, which may raise the body temperature. Additionally, you might consider giving them age-appropriate fever-reducing medicine, but always check with your doctor first.  Finally, keep an eye on your child’s overall behavior and symptoms. If their fever lasts for more than a few days, or if they show signs of serious illness, it’s time to consult a doctor. Watch for symptoms like difficulty breathing, rash, or extreme fussiness. Knowing when to seek help is just as important as managing the fever at home. Your child's health and comfort are what matter most."
+            android:textColor="#707070"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivArticleImage" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

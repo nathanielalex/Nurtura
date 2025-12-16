@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Nurtura">
         <activity
+            android:name=".ChatActivity"
+            android:exported="false" />
+        <activity
             android:name=".StaffChildDetailActivity"
             android:exported="false" />
         <activity

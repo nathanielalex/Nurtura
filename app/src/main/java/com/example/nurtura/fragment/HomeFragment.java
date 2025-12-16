@@ -49,7 +49,7 @@ public class HomeFragment extends Fragment {
     private ChildRepository childRepository;
     private FirebaseFirestore db;
     private static final int REQUEST_CALL_PERMISSION = 1;
-    private static final String MIDWIFE_NUMBER = "08123456789"; // Predefined number
+    private static final String MIDWIFE_NUMBER = "08123456789";
 
     @Nullable
     @Override
@@ -70,12 +70,9 @@ public class HomeFragment extends Fragment {
         db = FirebaseFirestore.getInstance();
         childRepository = new ChildRepository();
 
-        // 1. Mandatory Feature: Panic Button (Immediate Call)
         btnPanic.setOnClickListener(v -> makePanicCall());
 
-        // 2. Chat Feature Navigation
         cardChatMedic.setOnClickListener(v -> {
-            // Navigate to ChatFragment via BottomNav logic or direct transaction
             getParentFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, new ChatFragment())
                     .addToBackStack(null)
@@ -98,6 +95,18 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CALL_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                makePanicCall();
+            } else {
+                Toast.makeText(getContext(), "Permission DENIED", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         loadData();
@@ -107,13 +116,11 @@ public class HomeFragment extends Fragment {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) return;
 
-        // Load User Profile UI
         if (user.getDisplayName() != null) {
             tvWelcome.setText("Hello, " + user.getDisplayName());
             tvInitials.setText(user.getDisplayName().substring(0, 1));
         }
 
-        // 3. Mandatory Feature: Load Stored Schedule
         childRepository.getChildrenByParentId(user.getUid(), new ChildRepository.ChildrenCallback() {
             @Override
             public void onSuccess(List<Child> children) {

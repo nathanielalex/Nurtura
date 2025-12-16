@@ -3,7 +3,6 @@ package com.example.nurtura.auth;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.CancellationSignal;
 import android.util.Log;
@@ -41,17 +40,14 @@ public class GoogleSignInManager {
     public void signInWithGoogle() {
         String key = BuildConfig.WEB_CLIENT_KEY;
         GetGoogleIdOption googleIdOption = new GetGoogleIdOption.Builder()
-                .setFilterByAuthorizedAccounts(false) // Set to false to allow user to pick any account
+                .setFilterByAuthorizedAccounts(false)
                 .setServerClientId(key)
                 .setAutoSelectEnabled(true)
                 .build();
 
-        GetCredentialRequest request = null;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-            request = new GetCredentialRequest.Builder().
-                    addCredentialOption(googleIdOption)
-                    .build();
-        }
+        GetCredentialRequest request = new GetCredentialRequest.Builder()
+                .addCredentialOption(googleIdOption)
+                .build();
 
         credentialManager.getCredentialAsync(
                 context,
@@ -68,49 +64,42 @@ public class GoogleSignInManager {
                     public void onError(@NonNull GetCredentialException e) {
                         Log.e(TAG, "GetCredential failed", e);
                         ((Activity) context).runOnUiThread(() ->
-                                Toast.makeText(context, "Sign In Failed", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, "Sign In Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show()
                         );
                     }
                 }
         );
-
     }
 
     public void handleSignIn(GetCredentialResponse result) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-            var credential = result.getCredential();
-            if (credential instanceof CustomCredential customCredential && credential.getType().equals(GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL)) {
-                try {
-                    //android vs androidx
-                    Bundle credentialData = customCredential.getData();
-                    GoogleIdTokenCredential googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credentialData);
+        var credential = result.getCredential();
+        if (credential instanceof CustomCredential customCredential && credential.getType().equals(GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL)) {
+            try {
+                Bundle credentialData = customCredential.getData();
+                GoogleIdTokenCredential googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credentialData);
 
-                    // 5. Authenticate with Firebase using the ID Token
-                    authRepository.firebaseAuthWithGoogle(googleIdTokenCredential.getIdToken(), new AuthRepository.FirebaseAuthCallback() {
-                        @Override
-                        public void onSuccess(FirebaseUser user) {
-                            Log.d(TAG, "Google Auth Success: " + user.getEmail());
-                            // Navigate to Main Activity
-                            Intent intent = new Intent(context, MainActivity.class);
-                            context.startActivity(intent);
-                            ((Activity) context).finish();
-                        }
+                authRepository.firebaseAuthWithGoogle(googleIdTokenCredential.getIdToken(), new AuthRepository.FirebaseAuthCallback() {
+                    @Override
+                    public void onSuccess(FirebaseUser user) {
+                        Log.d(TAG, "Google Auth Success: " + user.getEmail());
+                        Intent intent = new Intent(context, MainActivity.class);
+                        context.startActivity(intent);
+                        ((Activity) context).finish();
+                    }
 
-                        @Override
-                        public void onFailure(Exception e) {
-                            Log.e(TAG, "Firebase Auth Failed", e);
-                            ((Activity) context).runOnUiThread(() ->
-                                    Toast.makeText(context, "Authentication Failed", Toast.LENGTH_SHORT).show()
-                            );
-                        }
-                    });
-                } catch (Exception e) {
-                    Log.e(TAG, "Error parsing credential", e);
-                }
-            } else {
-                Log.w(TAG, "Credential is not of type Google ID!");
+                    @Override
+                    public void onFailure(Exception e) {
+                        Log.e(TAG, "Firebase Auth Failed", e);
+                        ((Activity) context).runOnUiThread(() ->
+                                Toast.makeText(context, "Authentication Failed", Toast.LENGTH_SHORT).show()
+                        );
+                    }
+                });
+            } catch (Exception e) {
+                Log.e(TAG, "Error parsing credential", e);
             }
+        } else {
+            Log.w(TAG, "Credential is not of type Google ID!");
         }
     }
-
 }

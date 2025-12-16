@@ -1,6 +1,8 @@
 package com.example.nurtura.fragment;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +14,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,30 +26,30 @@ import com.example.nurtura.adapter.ImmunizationAdapter;
 import com.example.nurtura.model.Child;
 import com.example.nurtura.model.Immunization;
 import com.example.nurtura.model.User;
-import com.example.nurtura.model.Vaccine;
 import com.example.nurtura.repository.ChildRepository;
-import com.example.nurtura.repository.VaccineRepository;
-import com.example.nurtura.utils.ImmunizationUtils;
 import com.google.android.material.card.MaterialCardView;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class HomeFragment extends Fragment {
 
-    private static final String TAG = "HomeFragment";
     private RecyclerView rvImmunizations;
     private ImmunizationAdapter adapter;
     private TextView tvWelcome, tvInitials;
-
-    private VaccineRepository vaccineRepository;
     private ChildRepository childRepository;
     private FirebaseFirestore db;
-
-    private List<Vaccine> loadedVaccines = new ArrayList<>();
+    private static final int REQUEST_CALL_PERMISSION = 1;
+    private static final String MIDWIFE_NUMBER = "08123456789"; // Predefined number
 
     @Nullable
     @Override
@@ -57,134 +61,103 @@ public class HomeFragment extends Fragment {
         MaterialCardView cardHealthRubric = view.findViewById(R.id.cardHealthRubric);
         tvWelcome = view.findViewById(R.id.tvWelcome);
         tvInitials = view.findViewById(R.id.tvInitials);
-
         rvImmunizations = view.findViewById(R.id.rvImmunizations);
+
         rvImmunizations.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new ImmunizationAdapter(getContext(), new ArrayList<>());
         rvImmunizations.setAdapter(adapter);
 
         db = FirebaseFirestore.getInstance();
-        vaccineRepository = new VaccineRepository();
         childRepository = new ChildRepository();
 
-        btnPanic.setOnClickListener(v -> {
-            String emergencyNumber = "112";
-            Intent intent = new Intent(Intent.ACTION_DIAL);
-            intent.setData(Uri.parse("tel:" + emergencyNumber));
-            startActivity(intent);
+        // 1. Mandatory Feature: Panic Button (Immediate Call)
+        btnPanic.setOnClickListener(v -> makePanicCall());
+
+        // 2. Chat Feature Navigation
+        cardChatMedic.setOnClickListener(v -> {
+            // Navigate to ChatFragment via BottomNav logic or direct transaction
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new ChatFragment())
+                    .addToBackStack(null)
+                    .commit();
         });
 
-        cardChatMedic.setOnClickListener(v ->
-                Toast.makeText(getContext(), "Chat feature not available.", Toast.LENGTH_SHORT).show()
-        );
-
-        cardHealthRubric.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), ArticleActivity.class);
-            startActivity(intent);
-        });
+        cardHealthRubric.setOnClickListener(v -> startActivity(new Intent(getActivity(), ArticleActivity.class)));
 
         return view;
+    }
+
+    private void makePanicCall() {
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CALL_PERMISSION);
+        } else {
+            Intent intent = new Intent(Intent.ACTION_CALL);
+            intent.setData(Uri.parse("tel:" + MIDWIFE_NUMBER));
+            startActivity(intent);
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        refreshData();
+        loadData();
     }
 
-    private void refreshData() {
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (firebaseUser == null) return;
+    private void loadData() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) return;
 
-        loadUserProfile(firebaseUser);
-
-        if (loadedVaccines.isEmpty()) {
-            vaccineRepository.getVaccines(new VaccineRepository.VaccineCallback() {
-                @Override
-                public void onSuccess(List<Vaccine> vaccines) {
-                    if (vaccines == null || vaccines.isEmpty()) {
-                        Log.e(TAG, "Critical: No vaccines found in Firestore.");
-                        return;
-                    }
-                    loadedVaccines = vaccines;
-                    fetchChildAndCalculate(firebaseUser.getUid());
-                }
-
-                @Override
-                public void onFailure(Exception e) {
-                    Log.e(TAG, "Failed to fetch vaccines", e);
-                    Toast.makeText(getContext(), "Error loading schedule configuration.", Toast.LENGTH_SHORT).show();
-                }
-            });
-        } else {
-            fetchChildAndCalculate(firebaseUser.getUid());
+        // Load User Profile UI
+        if (user.getDisplayName() != null) {
+            tvWelcome.setText("Hello, " + user.getDisplayName());
+            tvInitials.setText(user.getDisplayName().substring(0, 1));
         }
-    }
 
-    private void fetchChildAndCalculate(String parentUid) {
-        childRepository.getChildrenByParentId(parentUid, new ChildRepository.ChildrenCallback() {
+        // 3. Mandatory Feature: Load Stored Schedule
+        childRepository.getChildrenByParentId(user.getUid(), new ChildRepository.ChildrenCallback() {
             @Override
             public void onSuccess(List<Child> children) {
-                if (children.isEmpty()) {
-                    adapter = new ImmunizationAdapter(getContext(), new ArrayList<>());
-                    rvImmunizations.setAdapter(adapter);
-                    return;
+                if (!children.isEmpty()) {
+                    loadScheduleForChild(children.get(0).getId());
                 }
-
-                Child currentChild = children.get(0);
-
-                if (currentChild.getDateOfBirth() == null) {
-                    Log.e(TAG, "Child data corrupt: Missing Date of Birth.");
-                    return;
-                }
-
-                List<Immunization> schedule = ImmunizationUtils.generateSchedule(
-                        currentChild.getDateOfBirth(),
-                        loadedVaccines
-                );
-
-                adapter = new ImmunizationAdapter(getContext(), schedule);
-                rvImmunizations.setAdapter(adapter);
             }
-
             @Override
-            public void onFailure(Exception e) {
-                Log.e(TAG, "Failed to load child data", e);
-            }
+            public void onFailure(Exception e) {}
         });
     }
 
-    private void loadUserProfile(FirebaseUser firebaseUser) {
-        db.collection("users").document(firebaseUser.getUid())
-                .get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot.exists()) {
-                        User user = documentSnapshot.toObject(User.class);
-                        if (user != null && user.getName() != null) {
-                            String fullName = user.getName();
-                            String firstName = fullName.split(" ")[0];
-                            tvWelcome.setText("Hello, " + firstName + "!");
-                            tvInitials.setText(getInitials(fullName));
-                        }
-                    }
-                })
-                .addOnFailureListener(e -> {
-                    if (firebaseUser.getDisplayName() != null) {
-                        tvWelcome.setText("Hello, " + firebaseUser.getDisplayName());
-                        tvInitials.setText(getInitials(firebaseUser.getDisplayName()));
-                    }
-                });
-    }
+    private void loadScheduleForChild(String childId) {
+        childRepository.getImmunizationSchedule(childId, new ChildRepository.ScheduleCallback() {
+            @Override
+            public void onSuccess(List<Map<String, Object>> scheduleData) {
+                List<Immunization> uiList = new ArrayList<>();
+                SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
+                Date today = new Date();
 
-    private String getInitials(String name) {
-        if (name == null || name.isEmpty()) return "";
-        String[] parts = name.trim().split("\\s+");
-        if (parts.length == 1) {
-            return parts[0].length() > 1 ? parts[0].substring(0, 2).toUpperCase() : parts[0].toUpperCase();
-        } else {
-            String firstInitial = String.valueOf(parts[0].charAt(0));
-            String lastInitial = String.valueOf(parts[1].charAt(0));
-            return (firstInitial + lastInitial).toUpperCase();
-        }
+                for (Map<String, Object> item : scheduleData) {
+                    Timestamp ts = (Timestamp) item.get("dueDate");
+                    String name = (String) item.get("vaccineName");
+                    if (ts == null || name == null) continue;
+
+                    Date date = ts.toDate();
+                    String status = "Upcoming";
+
+                    long diff = date.getTime() - today.getTime();
+                    long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+
+                    if (days < 0) status = "Overdue";
+                    else if (days == 0) status = "Due Today";
+                    else if (days <= 14) status = "Due in " + days + " days";
+
+                    uiList.add(new Immunization(name, "Scheduled", status, sdf.format(date)));
+                }
+                adapter = new ImmunizationAdapter(getContext(), uiList);
+                rvImmunizations.setAdapter(adapter);
+            }
+            @Override
+            public void onFailure(Exception e) {
+                Toast.makeText(getContext(), "Failed to load schedule", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

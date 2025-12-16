@@ -1,11 +1,18 @@
 package com.example.nurtura;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.nurtura.fragment.ChatFragment;
@@ -24,11 +31,21 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
+
+    private final ActivityResultLauncher<String> requestPermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                if (isGranted) {
+                } else {
+                    Toast.makeText(this, "Notifications disabled. You won't receive reminders.", Toast.LENGTH_LONG).show();
+                }
+            });
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
+        askNotificationPermission();
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
 
@@ -67,17 +84,36 @@ public class MainActivity extends AppCompatActivity {
         getFCMToken();
     }
 
+    private void askNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
+                    PackageManager.PERMISSION_GRANTED) {
+            } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
+            } else {
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
+            }
+        }
+    }
+
     private void getFCMToken() {
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(task -> {
                     if (!task.isSuccessful()) {
+                        // PRINT THE ERROR to Logcat and Toast
                         Log.w("FCM", "Fetching FCM registration token failed", task.getException());
+                        Toast.makeText(MainActivity.this, "FCM Failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                         return;
                     }
 
+                    // Get new FCM registration token
                     String token = task.getResult();
-                    Log.d("FCM", "Token: " + token);
 
+                    // PRINT THE TOKEN to Logcat and Toast
+                    Log.d("FCM", "Token: " + token);
+                    Toast.makeText(MainActivity.this, "Token: " + token, Toast.LENGTH_LONG).show();
+
+                    // Save to Firestore
                     if (FirebaseAuth.getInstance().getCurrentUser() != null) {
                         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                         Map<String, Object> tokenUpdate = new HashMap<>();

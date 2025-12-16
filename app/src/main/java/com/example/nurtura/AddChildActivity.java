@@ -4,10 +4,6 @@ import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -18,8 +14,9 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.nurtura.databinding.ActivityAddChildBinding;
 import com.example.nurtura.repository.ChildRepository;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
+import com.example.nurtura.repository.VaccineRepository;
+import com.example.nurtura.utils.ImmunizationUtils;
+import com.example.nurtura.model.Vaccine;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,26 +24,35 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class AddChildActivity extends AppCompatActivity {
     private ActivityAddChildBinding binding;
     private ChildRepository childRepository;
+    private VaccineRepository vaccineRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_add_child);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+
+        binding = ActivityAddChildBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.getRoot(), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        binding = ActivityAddChildBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+
         childRepository = new ChildRepository();
+        vaccineRepository = new VaccineRepository();
+
+        // FIX: Add listener for the X (Close) button
+        binding.btnClose.setOnClickListener(v -> finish());
 
         binding.etDob.setOnClickListener(v -> showDatePicker());
         binding.tiDob.setEndIconOnClickListener(v -> showDatePicker());
@@ -66,7 +72,6 @@ public class AddChildActivity extends AppCompatActivity {
         String name = binding.etChildName.getText().toString();
         String dobStr = binding.etDob.getText().toString();
         String gender = binding.rbBoy.isChecked() ? "Boy" : "Girl";
-        Log.d("ChildActivity", "gender: " + gender);
         String blood = binding.etBloodType.getText().toString();
         String weightStr = binding.etWeight.getText().toString();
         String heightStr = binding.etHeight.getText().toString();
@@ -79,7 +84,8 @@ public class AddChildActivity extends AppCompatActivity {
             return;
         }
 
-        double weight, height;
+        double weight;
+        double height;
         try {
             weight = Double.parseDouble(weightStr);
             height = Double.parseDouble(heightStr);
@@ -90,7 +96,7 @@ public class AddChildActivity extends AppCompatActivity {
 
         Date dob;
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        sdf.setLenient(false); // prevent invalid dates like 32/15/2023
+        sdf.setLenient(false);
         try {
             dob = sdf.parse(dobStr);
         } catch (ParseException e) {
@@ -99,18 +105,17 @@ public class AddChildActivity extends AppCompatActivity {
         }
 
         List<String> allergiesList = new ArrayList<>();
-
         if (!allergiesStr.isEmpty()) {
             allergiesList = Arrays.asList(allergiesStr.split("\\s*,\\s*"));
         }
 
+        // 1. Save Child
         childRepository.insertChildToFirestore(name, gender, dob, blood, allergiesList,
                 weight, height, new ChildRepository.FirestoreCallback() {
                     @Override
-                    public void onSuccess() {
-                        Toast.makeText(AddChildActivity.this,
-                                "Child added successfully!", Toast.LENGTH_SHORT).show();
-                        finish();
+                    public void onSuccess(String childId) {
+                        // 2. Generate and Save Schedule
+                        generateAndSaveSchedule(childId, dob);
                     }
 
                     @Override
@@ -122,9 +127,40 @@ public class AddChildActivity extends AppCompatActivity {
                 });
     }
 
+    private void generateAndSaveSchedule(String childId, Date dob) {
+        vaccineRepository.getVaccines(new VaccineRepository.VaccineCallback() {
+            @Override
+            public void onSuccess(List<Vaccine> vaccines) {
+                if (vaccines == null) vaccines = new ArrayList<>();
+                List<Map<String, Object>> schedule = new ArrayList<>();
+
+                for (Vaccine v : vaccines) {
+                    Date dueDate = ImmunizationUtils.calculateDueDate(dob, v.getRecommendedAgeInMonthsInt());
+                    if (dueDate != null) {
+                        Map<String, Object> item = new HashMap<>();
+                        item.put("vaccineName", v.getName());
+                        item.put("dueDate", dueDate);
+                        item.put("status", "upcoming");
+                        item.put("description", v.getDescription());
+                        schedule.add(item);
+                    }
+                }
+
+                childRepository.saveSchedule(childId, schedule);
+                Toast.makeText(AddChildActivity.this, "Child added successfully!", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                // Still close if vaccine fetch fails, child is saved
+                finish();
+            }
+        });
+    }
+
     private void showDatePicker() {
         final Calendar calendar = Calendar.getInstance();
-
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
@@ -134,12 +170,10 @@ public class AddChildActivity extends AppCompatActivity {
                 (view, selectedYear, selectedMonth, selectedDay) -> {
                     String date = String.format(Locale.getDefault(), "%02d/%02d/%04d",
                             selectedDay, selectedMonth + 1, selectedYear);
-
                     binding.etDob.setText(date);
                 },
                 year, month, day
         );
-
         datePickerDialog.show();
     }
 }

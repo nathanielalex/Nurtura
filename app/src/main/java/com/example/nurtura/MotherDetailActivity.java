@@ -12,14 +12,11 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.nurtura.adapter.ChildAdapter;
 import com.example.nurtura.adapter.StaffChildAdapter;
-import com.example.nurtura.auth.AuthRepository;
 import com.example.nurtura.auth.UserRepository;
 import com.example.nurtura.model.Child;
 import com.example.nurtura.model.User;
 import com.example.nurtura.repository.ChildRepository;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;

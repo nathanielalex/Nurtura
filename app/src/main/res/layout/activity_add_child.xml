@@ -7,7 +7,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f8f9fa"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    tools:context=".AddChildActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,13 +26,16 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginEnd="12dp"
+            <ImageButton
+                android:id="@+id/btnClose"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="4dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@android:drawable/ic_menu_close_clear_cancel"
                 app:tint="#324355"
-                android:contentDescription="Close" />
+                android:contentDescription="Close"
+                android:scaleType="centerInside"/>
 
             <TextView
                 android:layout_width="wrap_content"

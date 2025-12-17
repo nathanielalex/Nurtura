@@ -22,7 +22,7 @@ public class ChildRepository {
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     public interface FirestoreCallback {
-        void onSuccess(String childId); // Changed to return ID
+        void onSuccess(String result);
         void onFailure(Exception e);
     }
 
@@ -59,9 +59,9 @@ public class ChildRepository {
                 .addOnFailureListener(callback::onFailure);
     }
 
-    // New: Save generated schedule to Firestore
     public void saveSchedule(String childId, List<Map<String, Object>> schedule) {
         for (Map<String, Object> item : schedule) {
+            item.put("isCompleted", false);
             db.collection("children").document(childId)
                     .collection("immunizations")
                     .add(item);
@@ -80,7 +80,9 @@ public class ChildRepository {
                         if (task.isSuccessful()) {
                             List<Map<String, Object>> scheduleData = new ArrayList<>();
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                scheduleData.add(document.getData());
+                                Map<String, Object> data = document.getData();
+                                data.put("id", document.getId()); // Attach Doc ID
+                                scheduleData.add(data);
                             }
                             callback.onSuccess(scheduleData);
                         } else {
@@ -99,11 +101,19 @@ public class ChildRepository {
                     List<Child> children = new ArrayList<>();
                     for (QueryDocumentSnapshot doc : querySnapshot) {
                         Child child = doc.toObject(Child.class);
-                        child.setId(doc.getId()); // Ensure ID is set
+                        child.setId(doc.getId());
                         children.add(child);
                     }
                     callback.onSuccess(children);
                 })
+                .addOnFailureListener(callback::onFailure);
+    }
+
+    public void updateImmunizationStatus(String childId, String immunizationId, boolean isCompleted, FirestoreCallback callback) {
+        db.collection("children").document(childId)
+                .collection("immunizations").document(immunizationId)
+                .update("isCompleted", isCompleted)
+                .addOnSuccessListener(aVoid -> callback.onSuccess("Updated"))
                 .addOnFailureListener(callback::onFailure);
     }
 }

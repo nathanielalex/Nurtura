@@ -10,7 +10,6 @@ public class Article {
     private String content;
     private String imageUrl;
 
-    //need empty constructor for firestore
     public Article() { }
 
     public Article(String id, String title, String subtitle, String content, String imageUrl) {

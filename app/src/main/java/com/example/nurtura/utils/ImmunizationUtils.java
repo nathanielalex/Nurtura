@@ -53,10 +53,12 @@ public class ImmunizationUtils {
                     : "Month " + vaccine.getRecommendedAgeInMonthsInt();
 
             results.add(new Immunization(
+                    null,
                     vaccine.getName(),
                     scheduleLabel,
                     status,
-                    sdf.format(dueDate)
+                    sdf.format(dueDate),
+                    false
             ));
         }
         return results;

@@ -44,7 +44,7 @@ public class StaffChildAdapter extends RecyclerView.Adapter<StaffChildAdapter.St
             String formattedDate = sdf.format(dob);
             holder.txtChildBirth.setText(formattedDate);
         } else {
-            holder.txtChildBirth.setText("N/A"); // or empty string
+            holder.txtChildBirth.setText("N/A");
         }
         holder.btnEditInformationStaff.setOnClickListener(v -> {
             Intent intent = new Intent(v.getContext(), StaffChildDetailActivity.class);

@@ -51,7 +51,6 @@ public class AddChildActivity extends AppCompatActivity {
         childRepository = new ChildRepository();
         vaccineRepository = new VaccineRepository();
 
-        // FIX: Add listener for the X (Close) button
         binding.btnClose.setOnClickListener(v -> finish());
 
         binding.etDob.setOnClickListener(v -> showDatePicker());
@@ -109,12 +108,10 @@ public class AddChildActivity extends AppCompatActivity {
             allergiesList = Arrays.asList(allergiesStr.split("\\s*,\\s*"));
         }
 
-        // 1. Save Child
         childRepository.insertChildToFirestore(name, gender, dob, blood, allergiesList,
                 weight, height, new ChildRepository.FirestoreCallback() {
                     @Override
                     public void onSuccess(String childId) {
-                        // 2. Generate and Save Schedule
                         generateAndSaveSchedule(childId, dob);
                     }
 
@@ -153,7 +150,6 @@ public class AddChildActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Exception e) {
-                // Still close if vaccine fetch fails, child is saved
                 finish();
             }
         });

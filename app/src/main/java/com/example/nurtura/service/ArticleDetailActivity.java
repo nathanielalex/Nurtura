@@ -5,10 +5,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.nurtura.R;
-// Load Image from URL requires additional library (Glide or Picasso) to build.gradle file.
-// For example, with Glide: implementation 'com.github.bumptech.glide:glide:4.12.0'
-// import com.bumptech.glide.Glide;
-
 
 public class ArticleDetailActivity extends AppCompatActivity {
 
@@ -31,11 +27,6 @@ public class ArticleDetailActivity extends AppCompatActivity {
         tvSubtitle.setText(subtitle);
         tvContent.setText(content);
 
-        // Image loading library (Glide or Picasso) to load the image from the URL.
-        // Using Glide:
-        // Glide.with(this).load(imageUrl).into(ivImage);
-
-        // Placeholder
         ivImage.setImageResource(R.drawable.ic_launcher_background);
     }
 }

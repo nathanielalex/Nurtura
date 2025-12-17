@@ -55,9 +55,9 @@ public class ChatListAdapter extends FirestoreRecyclerAdapter<ChatRoom, ChatList
                 chatViewHolder.txtTimestamp.setText(sdf.format(date));
             }
             if (chatRoom.getLastMessage().isRead) {
-                chatViewHolder.viewIsRead.setVisibility(View.GONE); // message read, hide dot
+                chatViewHolder.viewIsRead.setVisibility(View.GONE);
             } else {
-                chatViewHolder.viewIsRead.setVisibility(View.VISIBLE); // message unread, show dot
+                chatViewHolder.viewIsRead.setVisibility(View.VISIBLE);
             }
         } else {
             chatViewHolder.txtLastMessage.setText("Start a conversation");

@@ -1,19 +1,17 @@
 package com.example.nurtura.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nurtura.R;
-import com.example.nurtura.ScheduleActivity;
 import com.example.nurtura.model.Immunization;
-import com.google.android.material.button.MaterialButton;
 
 import java.util.List;
 
@@ -21,10 +19,21 @@ public class ImmunizationAdapter extends RecyclerView.Adapter<ImmunizationAdapte
 
     private List<Immunization> immunizationList;
     private Context context;
+    private OnItemCheckListener checkListener;
 
-    public ImmunizationAdapter(Context context, List<Immunization> immunizationList) {
+    public interface OnItemCheckListener {
+        void onItemCheck(Immunization item, boolean isChecked);
+    }
+
+    public ImmunizationAdapter(Context context, List<Immunization> immunizationList, OnItemCheckListener checkListener) {
         this.context = context;
         this.immunizationList = immunizationList;
+        this.checkListener = checkListener;
+    }
+
+    public void updateList(List<Immunization> newList) {
+        this.immunizationList = newList;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -44,9 +53,13 @@ public class ImmunizationAdapter extends RecyclerView.Adapter<ImmunizationAdapte
         holder.tvDueStatus.setText(item.getDueStatus());
         holder.tvDate.setText(item.getDate());
 
-        holder.btnViewSchedule.setOnClickListener(v -> {
-            Intent intent = new Intent(context, ScheduleActivity.class);
-            context.startActivity(intent);
+        holder.cbDone.setOnCheckedChangeListener(null);
+        holder.cbDone.setChecked(item.isCompleted());
+
+        holder.cbDone.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (checkListener != null) {
+                checkListener.onItemCheck(item, isChecked);
+            }
         });
     }
 
@@ -57,7 +70,7 @@ public class ImmunizationAdapter extends RecyclerView.Adapter<ImmunizationAdapte
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvName, tvSchedule, tvDueStatus, tvDate;
-        MaterialButton btnViewSchedule;
+        CheckBox cbDone;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -65,7 +78,7 @@ public class ImmunizationAdapter extends RecyclerView.Adapter<ImmunizationAdapte
             tvSchedule = itemView.findViewById(R.id.tvImmSchedule);
             tvDueStatus = itemView.findViewById(R.id.tvImmDue);
             tvDate = itemView.findViewById(R.id.tvImmDate);
-            btnViewSchedule = itemView.findViewById(R.id.btnViewSchedule);
+            cbDone = itemView.findViewById(R.id.cbDone);
         }
     }
 }

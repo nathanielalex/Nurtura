@@ -20,7 +20,6 @@ public class ArticleActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.rvArticle);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Mandatory Feature: Static Health Information (No dynamic CMS)
         ArrayList<Article> staticArticles = new ArrayList<>();
 
         Article a1 = new Article();

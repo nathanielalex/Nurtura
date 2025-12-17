@@ -5,10 +5,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,15 +17,11 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nurtura.ArticleActivity;
 import com.example.nurtura.R;
-import com.example.nurtura.adapter.ImmunizationAdapter;
+import com.example.nurtura.ScheduleActivity;
 import com.example.nurtura.model.Child;
-import com.example.nurtura.model.Immunization;
-import com.example.nurtura.model.User;
 import com.example.nurtura.repository.ChildRepository;
 import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.Timestamp;
@@ -34,7 +30,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -43,9 +38,8 @@ import java.util.concurrent.TimeUnit;
 
 public class HomeFragment extends Fragment {
 
-    private RecyclerView rvImmunizations;
-    private ImmunizationAdapter adapter;
     private TextView tvWelcome, tvInitials;
+    private TextView tvNextVaccineName, tvNextVaccineDate, tvNextVaccineStatus;
     private ChildRepository childRepository;
     private FirebaseFirestore db;
     private static final int REQUEST_CALL_PERMISSION = 1;
@@ -61,11 +55,11 @@ public class HomeFragment extends Fragment {
         MaterialCardView cardHealthRubric = view.findViewById(R.id.cardHealthRubric);
         tvWelcome = view.findViewById(R.id.tvWelcome);
         tvInitials = view.findViewById(R.id.tvInitials);
-        rvImmunizations = view.findViewById(R.id.rvImmunizations);
+        Button btnViewSchedule = view.findViewById(R.id.btnViewSchedule);
 
-        rvImmunizations.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new ImmunizationAdapter(getContext(), new ArrayList<>());
-        rvImmunizations.setAdapter(adapter);
+        tvNextVaccineName = view.findViewById(R.id.tvNextVaccineName);
+        tvNextVaccineDate = view.findViewById(R.id.tvNextVaccineDate);
+        tvNextVaccineStatus = view.findViewById(R.id.tvNextVaccineStatus);
 
         db = FirebaseFirestore.getInstance();
         childRepository = new ChildRepository();
@@ -80,6 +74,8 @@ public class HomeFragment extends Fragment {
         });
 
         cardHealthRubric.setOnClickListener(v -> startActivity(new Intent(getActivity(), ArticleActivity.class)));
+
+        btnViewSchedule.setOnClickListener(v -> startActivity(new Intent(getActivity(), ScheduleActivity.class)));
 
         return view;
     }
@@ -126,6 +122,10 @@ public class HomeFragment extends Fragment {
             public void onSuccess(List<Child> children) {
                 if (!children.isEmpty()) {
                     loadScheduleForChild(children.get(0).getId());
+                } else {
+                    tvNextVaccineName.setText("No child profile");
+                    tvNextVaccineDate.setText("Please add a child");
+                    tvNextVaccineStatus.setText("");
                 }
             }
             @Override
@@ -137,33 +137,75 @@ public class HomeFragment extends Fragment {
         childRepository.getImmunizationSchedule(childId, new ChildRepository.ScheduleCallback() {
             @Override
             public void onSuccess(List<Map<String, Object>> scheduleData) {
-                List<Immunization> uiList = new ArrayList<>();
                 SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
                 Date today = new Date();
+                Map<String, Object> nearestItem = null;
+                long smallestDiff = Long.MAX_VALUE;
 
                 for (Map<String, Object> item : scheduleData) {
+                    Boolean isCompleted = (Boolean) item.get("isCompleted");
+                    if (isCompleted != null && isCompleted) continue; // Skip completed
+
                     Timestamp ts = (Timestamp) item.get("dueDate");
                     String name = (String) item.get("vaccineName");
                     if (ts == null || name == null) continue;
 
                     Date date = ts.toDate();
-                    String status = "Upcoming";
+                    long diff = date.getTime() - today.getTime();
+
+                    if (diff >= -TimeUnit.DAYS.toMillis(30) && diff < smallestDiff) {
+                        smallestDiff = diff;
+                        nearestItem = item;
+                    }
+                }
+
+                if (nearestItem == null && !scheduleData.isEmpty()) {
+                    // Check if all are done
+                    boolean allDone = true;
+                    for(Map<String, Object> i : scheduleData) {
+                        if(i.get("isCompleted") == null || !(boolean)i.get("isCompleted")) {
+                            allDone = false; break;
+                        }
+                    }
+                    if(allDone) {
+                        tvNextVaccineName.setText("All Caught Up!");
+                        tvNextVaccineDate.setText("Great job, Mom!");
+                        tvNextVaccineStatus.setText("Completed");
+                        tvNextVaccineStatus.setTextColor(ContextCompat.getColor(getContext(), R.color.slate_navy));
+                        return;
+                    }
+                }
+
+                if (nearestItem != null) {
+                    Timestamp ts = (Timestamp) nearestItem.get("dueDate");
+                    String name = (String) nearestItem.get("vaccineName");
+                    Date date = ts.toDate();
 
                     long diff = date.getTime() - today.getTime();
                     long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
 
-                    if (days < 0) status = "Overdue";
+                    String status;
+                    if (days < 0) status = "Overdue by " + Math.abs(days) + " days";
                     else if (days == 0) status = "Due Today";
-                    else if (days <= 14) status = "Due in " + days + " days";
+                    else status = "Due in " + days + " days";
 
-                    uiList.add(new Immunization(name, "Scheduled", status, sdf.format(date)));
+                    tvNextVaccineName.setText(name);
+                    tvNextVaccineDate.setText("Scheduled: " + sdf.format(date));
+                    tvNextVaccineStatus.setText(status);
+
+                    if (days < 0) tvNextVaccineStatus.setTextColor(ContextCompat.getColor(getContext(), R.color.panic_red));
+                    else tvNextVaccineStatus.setTextColor(ContextCompat.getColor(getContext(), R.color.hot_pink));
+
+                } else if (tvNextVaccineName.getText().toString().equals("Loading...")) {
+                    tvNextVaccineName.setText("No upcoming vaccines");
+                    tvNextVaccineDate.setText("");
+                    tvNextVaccineStatus.setText("");
                 }
-                adapter = new ImmunizationAdapter(getContext(), uiList);
-                rvImmunizations.setAdapter(adapter);
             }
             @Override
             public void onFailure(Exception e) {
-                Toast.makeText(getContext(), "Failed to load schedule", Toast.LENGTH_SHORT).show();
+                tvNextVaccineName.setText("Error");
+                tvNextVaccineDate.setText("Could not load schedule");
             }
         });
     }

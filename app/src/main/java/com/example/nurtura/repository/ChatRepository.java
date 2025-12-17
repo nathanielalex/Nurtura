@@ -49,7 +49,6 @@ public class ChatRepository {
         batch.update(chatRoomRef, "lastMessage", lastMessage);
 
         batch.commit().addOnFailureListener(e -> {
-            //handle failure
         });
     }
 
@@ -62,7 +61,6 @@ public class ChatRepository {
 
         docRef.get().addOnSuccessListener(documentSnapshot -> {
             if (!documentSnapshot.exists()) {
-                // Prepare initial data
                 List<String> ids = Arrays.asList(userId1, userId2);
 
                 Map<String, ChatRoom.ParticipantInfo> partData = new HashMap<>();
@@ -77,8 +75,7 @@ public class ChatRepository {
                 newChat.put("participantIds", ids);
                 newChat.put("participantData", partData);
                 newChat.put("createdAt", Timestamp.now());
-                newChat.put("lastMessage", lastMessage); //directly init message
-
+                newChat.put("lastMessage", lastMessage);
                 docRef.set(newChat);
             }
         });

@@ -15,7 +15,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
-        android:text="NURTURA" />
+        android:text="NURTURA"
+        android:textColor="@color/hot_pink" />
 
     <TextView
         android:id="@+id/txt_greetings"
@@ -44,13 +45,13 @@
     <Button
         android:id="@+id/btnLogin"
         style="@style/Widget.Nurtura.Button.Primary"
-        android:layout_marginTop="24dp"
-        android:text="Login" />
+        android:layout_marginTop="32dp"
+        android:text="Log In Securely" />
 
     <Button
         android:id="@+id/btnGoogleSignIn"
         style="@style/Widget.Nurtura.Button.Secondary"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:text="Sign in with Google"
         app:icon="@drawable/googleg_standard_color_18" />
 
@@ -58,6 +59,7 @@
         android:id="@+id/tvRegister"
         style="@style/Widget.Nurtura.TextView.Link"
         android:layout_marginTop="24dp"
+        android:layout_gravity="center"
         android:text="Don't have an account? Register Now" />
 
 </LinearLayout>

@@ -43,7 +43,6 @@ public class RegisterActivity extends AppCompatActivity {
             String phone = phoneField.getText().toString().trim();
             authRepository.registerUser(this, email, password, name, phone, success -> {
                 if (success) {
-                    // registration succeeded
                     Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();

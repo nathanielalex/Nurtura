@@ -100,20 +100,16 @@ public class MainActivity extends AppCompatActivity {
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(task -> {
                     if (!task.isSuccessful()) {
-                        // PRINT THE ERROR to Logcat and Toast
                         Log.w("FCM", "Fetching FCM registration token failed", task.getException());
                         Toast.makeText(MainActivity.this, "FCM Failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                         return;
                     }
 
-                    // Get new FCM registration token
                     String token = task.getResult();
 
-                    // PRINT THE TOKEN to Logcat and Toast
                     Log.d("FCM", "Token: " + token);
                     Toast.makeText(MainActivity.this, "Token: " + token, Toast.LENGTH_LONG).show();
 
-                    // Save to Firestore
                     if (FirebaseAuth.getInstance().getCurrentUser() != null) {
                         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                         Map<String, Object> tokenUpdate = new HashMap<>();

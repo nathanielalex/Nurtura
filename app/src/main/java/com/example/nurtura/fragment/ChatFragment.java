@@ -42,9 +42,9 @@ public class ChatFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_chat, container, false);
 
-        rvChat = view.findViewById(R.id.rvChat); // Needs ID in xml
-        etMessage = view.findViewById(R.id.etMessage); // Needs ID in xml
-        btnSend = view.findViewById(R.id.btnSend); // Needs ID in xml
+        rvChat = view.findViewById(R.id.rvChat);
+        etMessage = view.findViewById(R.id.etMessage);
+        btnSend = view.findViewById(R.id.btnSend);
 
         db = FirebaseFirestore.getInstance();
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -86,7 +86,6 @@ public class ChatFragment extends Fragment {
                 });
     }
 
-    // Inner Class for Adapter
     private static class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         private List<Map<String, Object>> list;
         private String currentUid;
@@ -99,7 +98,6 @@ public class ChatFragment extends Fragment {
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            // Using built-in android layout for simplicity as per "minimal" constraints
             View v = LayoutInflater.from(parent.getContext()).inflate(android.R.layout.simple_list_item_1, parent, false);
             return new ViewHolder(v);
         }

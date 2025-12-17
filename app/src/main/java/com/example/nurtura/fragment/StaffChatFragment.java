@@ -34,13 +34,13 @@ public class StaffChatFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_staff_chat, container, false);
         recyclerView = view.findViewById(R.id.recyclerChatList);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         chatRepository = new ChatRepository();
         currentUserId = FirebaseAuth.getInstance().getUid();
+        Log.d("STAFF_CHAT", "Current User ID: " + currentUserId); // <-- ADD THIS LOG
         setupRecyclerView();
 
         return view;
@@ -51,11 +51,11 @@ public class StaffChatFragment extends Fragment {
         query.get()
                 .addOnSuccessListener(querySnapshot -> {
                     for (DocumentSnapshot doc : querySnapshot.getDocuments()) {
-                        Log.d("CHAT_ROOM", doc.getId() + " => " + doc.getData());
+                        Log.d("STAFF_CHAT", doc.getId() + " => " + doc.getData());
                     }
                 })
                 .addOnFailureListener(e -> {
-                    Log.e("CHAT_ROOM", "Error fetching chat rooms", e);
+                    Log.e("STAFF_CHAT", "Error fetching chat rooms", e);
                 });
 
         FirestoreRecyclerOptions<ChatRoom> options = new FirestoreRecyclerOptions.Builder<ChatRoom>()

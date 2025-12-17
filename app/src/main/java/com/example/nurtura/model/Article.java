@@ -1,6 +1,7 @@
 package com.example.nurtura.model;
 
 import com.google.firebase.firestore.Exclude;
+import com.google.firebase.firestore.PropertyName;
 
 public class Article {
     @Exclude
@@ -8,6 +9,8 @@ public class Article {
     private String title;
     private String subtitle;
     private String content;
+
+    @PropertyName("img_url")
     private String imageUrl;
 
     public Article() { }
@@ -20,43 +23,22 @@ public class Article {
         this.imageUrl = imageUrl;
     }
 
-    public String getId() {
-        return id;
-    }
+    @Exclude
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
 
-    public String getTitle() {
-        return title;
-    }
+    public String getSubtitle() { return subtitle; }
+    public void setSubtitle(String subtitle) { this.subtitle = subtitle; }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    public String getContent() { return content; }
+    public void setContent(String content) { this.content = content; }
 
-    public String getSubtitle() {
-        return subtitle;
-    }
+    @PropertyName("img_url")
+    public String getImageUrl() { return imageUrl; }
 
-    public void setSubtitle(String subtitle) {
-        this.subtitle = subtitle;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
+    @PropertyName("img_url")
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 }

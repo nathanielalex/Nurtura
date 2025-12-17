@@ -17,18 +17,27 @@ import com.example.nurtura.service.ArticleDetailActivity;
 import java.util.List;
 
 public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder>{
+
     public static class ArticleViewHolder extends RecyclerView.ViewHolder {
         public TextView titleTextView;
         public TextView subtitleTextView;
+
         public ArticleViewHolder(View itemView) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.tvArticleTitle);
             subtitleTextView = itemView.findViewById(R.id.tvArticleSubtitle);
         }
     }
+
     private List<Article> articles;
+
     public ArticleAdapter(List<Article> articles) {
         this.articles = articles;
+    }
+
+    public void updateList(List<Article> newArticles) {
+        this.articles = newArticles;
+        notifyDataSetChanged();
     }
 
     @NonNull

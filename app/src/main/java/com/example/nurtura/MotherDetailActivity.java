@@ -1,6 +1,8 @@
 package com.example.nurtura;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,11 +14,17 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.nurtura.adapter.ChildAdapter;
 import com.example.nurtura.adapter.StaffChildAdapter;
+import com.example.nurtura.auth.AuthRepository;
 import com.example.nurtura.auth.UserRepository;
 import com.example.nurtura.model.Child;
 import com.example.nurtura.model.User;
+import com.example.nurtura.repository.ChatRepository;
 import com.example.nurtura.repository.ChildRepository;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +36,11 @@ public class MotherDetailActivity extends AppCompatActivity {
     StaffChildAdapter adapter;
     ChildRepository childRepository;
     UserRepository userRepository;
+    ChatRepository chatRepository;
     User mother;
     TextView txtMotherName;
+    Button btnStartChat;
+    String motherId, motherName, staffId, staffName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,14 +59,41 @@ public class MotherDetailActivity extends AppCompatActivity {
         children = new ArrayList<>();
         userRepository = new UserRepository();
         txtMotherName = findViewById(R.id.txtMotherName);
+        btnStartChat = findViewById(R.id.btnStartChat);
+        chatRepository = new ChatRepository();
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         String userId = getIntent().getStringExtra("uid");
+
+        userRepository.getUserByUid(user.getUid(), new UserRepository.UserCallback() {
+            @Override
+            public void onSuccess(Map<String, Object> userData) {
+                staffName = userData.get("name").toString();
+            }
+
+            @Override
+            public void onNotFound() {
+                Toast.makeText(getApplicationContext(),
+                        "User not found", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                Toast.makeText(getApplicationContext(),
+                        "Error loading user", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         userRepository.getUserByUid(userId, new UserRepository.UserCallback() {
             @Override
             public void onSuccess(Map<String, Object> userData) {
                 String name = (String) userData.get("name");
                 txtMotherName.setText(name);
+                motherId = userData.get("uid").toString();
+                motherName = name;
+                staffId = user.getUid();
+
             }
 
             @Override
@@ -83,6 +121,11 @@ public class MotherDetailActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),
                         "Error loading children", Toast.LENGTH_SHORT).show();
             }
+        });
+
+        btnStartChat.setOnClickListener(v -> {
+            chatRepository.initChatRoom(staffId, motherId, staffName, motherName);
+            Toast.makeText(getApplicationContext(), "Successfully create chat room", Toast.LENGTH_SHORT).show();
         });
 
     }

@@ -1,5 +1,7 @@
 package com.example.nurtura.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nurtura.R;
 import com.example.nurtura.model.Article;
+import com.example.nurtura.service.ArticleDetailActivity;
 
 import java.util.List;
 
@@ -38,8 +41,19 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
 
     @Override
     public void onBindViewHolder(ArticleViewHolder holder, int position) {
-        holder.titleTextView.setText(articles.get(position).getTitle());
-        holder.subtitleTextView.setText(articles.get(position).getSubtitle());
+        Article article = articles.get(position);
+        holder.titleTextView.setText(article.getTitle());
+        holder.subtitleTextView.setText(article.getSubtitle());
+
+        holder.itemView.setOnClickListener(v -> {
+            Context context = holder.itemView.getContext();
+            Intent intent = new Intent(context, ArticleDetailActivity.class);
+            intent.putExtra("ARTICLE_TITLE", article.getTitle());
+            intent.putExtra("ARTICLE_SUBTITLE", article.getSubtitle());
+            intent.putExtra("ARTICLE_CONTENT", article.getContent());
+            intent.putExtra("ARTICLE_IMAGE_URL", article.getImageUrl());
+            context.startActivity(intent);
+        });
     }
 
     @Override

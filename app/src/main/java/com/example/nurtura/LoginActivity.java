@@ -16,6 +16,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.nurtura.auth.AuthRepository;
 import com.example.nurtura.auth.GoogleSignInManager;
+import com.example.nurtura.auth.UserRepository;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -26,6 +27,7 @@ public class LoginActivity extends AppCompatActivity {
     private AuthRepository authRepository;
     private FirebaseAuth mAuth;
     private GoogleSignInManager googleSignInManager;
+    private UserRepository userRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
             return insets;
         });
         authRepository = new AuthRepository();
+        userRepository = new UserRepository();
         googleSignInManager = new GoogleSignInManager(this);
 
         mAuth = FirebaseAuth.getInstance();
@@ -106,7 +109,19 @@ public class LoginActivity extends AppCompatActivity {
     private void updateUI(FirebaseUser user) {
         if (user != null) {
             Log.d(TAG, "Logged in as: " + user.getEmail());
-            startActivity(new Intent(this, MainActivity.class));
+
+            userRepository.getRole(user.getUid(), new UserRepository.RoleCallback() {
+                @Override
+                public void onRoleReceived(String role) {
+                    if(role.equals("staff")) {
+                        startActivity(new Intent(LoginActivity.this, StaffActivity.class));
+                    }
+                    else {
+                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    }
+                }
+            });
+
             finish();
         } else {
             Log.d(TAG, "User not logged in");

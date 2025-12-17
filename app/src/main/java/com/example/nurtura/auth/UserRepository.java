@@ -19,6 +19,9 @@ public class UserRepository {
         void onNotFound();
         void onFailure(Exception e);
     }
+    public interface RoleCallback {
+        void onRoleReceived(String role);
+    }
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     public void saveUserToFirestore(FirebaseUser user, FirestoreCallback callback) {
         Map<String, Object> userData = new HashMap<>();
@@ -77,5 +80,21 @@ public class UserRepository {
                     }
                 })
                 .addOnFailureListener(callback::onFailure);
+    }
+
+    public void getRole(String userId, RoleCallback callback) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("users").document(userId).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        String role = documentSnapshot.getString("role");
+                        callback.onRoleReceived(role);
+                    } else {
+                        callback.onRoleReceived(null);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    callback.onRoleReceived(null);
+                });
     }
 }

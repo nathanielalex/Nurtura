@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     android:background="#f8f9fa">
 
-    <!-- Header Section -->
     <LinearLayout
         android:id="@+id/headerContainer"
         android:layout_width="match_parent"
@@ -37,8 +36,6 @@
             android:textSize="14sp" />
     </LinearLayout>
 
-    <!-- Chat List RecyclerView -->
-    <!-- Note: clipToPadding="false" allows content to scroll behind the padding area at the bottom -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerChatList"
         android:layout_width="match_parent"

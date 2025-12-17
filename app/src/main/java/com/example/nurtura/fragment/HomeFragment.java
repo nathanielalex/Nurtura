@@ -112,10 +112,17 @@ public class HomeFragment extends Fragment {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) return;
 
-        if (user.getDisplayName() != null) {
-            tvWelcome.setText("Hello, " + user.getDisplayName());
-            tvInitials.setText(user.getDisplayName().substring(0, 1));
+        String name = user.getDisplayName();
+
+        if (name != null && !name.trim().isEmpty()) {
+            tvWelcome.setText("Hello, " + name);
+            tvInitials.setText(name.substring(0, 1).toUpperCase());
+        } else {
+            // Fallback if displayName is empty
+            tvWelcome.setText("Hello");
+            tvInitials.setText("?");
         }
+
 
         childRepository.getChildrenByParentId(user.getUid(), new ChildRepository.ChildrenCallback() {
             @Override

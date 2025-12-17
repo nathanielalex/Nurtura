@@ -84,7 +84,6 @@
             android:paddingEnd="16dp"
             android:paddingBottom="12dp">
 
-            <!-- Message Input -->
             <EditText
                 android:id="@+id/etMessageInput"
                 android:layout_width="0dp"
@@ -102,10 +101,7 @@
                 android:textColor="#324355"
                 android:textColorHint="#888888"
                 android:textSize="16sp" />
-            <!-- Note: Requires a simple shape drawable named bg_chat_input.xml for rounded corners
-                 (solid #f4f7f9, radius 24dp) -->
 
-            <!-- Send Button -->
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/btnSend"
                 android:layout_width="wrap_content"
@@ -121,7 +117,6 @@
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
-    <!-- Chat History -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerChatMessages"
         android:layout_width="match_parent"

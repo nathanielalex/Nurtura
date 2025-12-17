@@ -1,11 +1,16 @@
 package com.example.nurtura.repository;
 
+import androidx.annotation.NonNull;
+
 import com.example.nurtura.model.Child;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -63,22 +68,26 @@ public class ChildRepository {
         }
     }
 
-    // New: Fetch stored schedule
-    public void getImmunizationSchedule(String childId, ScheduleCallback callback) {
-        db.collection("children").document(childId)
+    public void getImmunizationSchedule(String childId, final ScheduleCallback callback) {
+        db.collection("children")
+                .document(childId)
                 .collection("immunizations")
                 .orderBy("dueDate", Query.Direction.ASCENDING)
                 .get()
-                .addOnSuccessListener(querySnapshot -> {
-                    List<Map<String, Object>> schedule = new ArrayList<>();
-                    for (QueryDocumentSnapshot doc : querySnapshot) {
-                        Map<String, Object> data = doc.getData();
-                        data.put("id", doc.getId()); // Store doc ID for updates
-                        schedule.add(data);
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            List<Map<String, Object>> scheduleData = new ArrayList<>();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                scheduleData.add(document.getData());
+                            }
+                            callback.onSuccess(scheduleData);
+                        } else {
+                            callback.onFailure(task.getException());
+                        }
                     }
-                    callback.onSuccess(schedule);
-                })
-                .addOnFailureListener(callback::onFailure);
+                });
     }
 
     public void getChildrenByParentId(String parentUid, ChildrenCallback callback) {

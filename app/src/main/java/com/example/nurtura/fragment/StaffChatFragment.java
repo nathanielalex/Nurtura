@@ -42,7 +42,7 @@ public class StaffChatFragment extends Fragment {
 
         chatRepository = new ChatRepository();
         currentUserId = FirebaseAuth.getInstance().getUid();
-        Log.d("STAFF_CHAT", "Current User ID: " + currentUserId); // <-- ADD THIS LOG
+        Log.d("STAFF_CHAT", "Current User ID: " + currentUserId);
         setupRecyclerView();
 
         return view;

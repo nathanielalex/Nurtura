@@ -8,15 +8,17 @@ public class Article {
     private String title;
     private String subtitle;
     private String content;
+    private String imageUrl;
 
     //need empty constructor for firestore
     public Article() { }
 
-    public Article(String id, String title, String subtitle, String content) {
+    public Article(String id, String title, String subtitle, String content, String imageUrl) {
         this.id = id;
         this.title = title;
         this.subtitle = subtitle;
         this.content = content;
+        this.imageUrl = imageUrl;
     }
 
     public String getId() {
@@ -49,5 +51,13 @@ public class Article {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

@@ -7,6 +7,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -28,6 +29,11 @@ public class ChildRepository {
 
     public interface ChildrenCallback {
         void onSuccess(List<Child> children);
+        void onFailure(Exception e);
+    }
+
+    public interface ChildCallback {
+        void onSuccess(Child child);
         void onFailure(Exception e);
     }
 
@@ -74,20 +80,17 @@ public class ChildRepository {
                 .collection("immunizations")
                 .orderBy("dueDate", Query.Direction.ASCENDING)
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            List<Map<String, Object>> scheduleData = new ArrayList<>();
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Map<String, Object> data = document.getData();
-                                data.put("id", document.getId()); // Attach Doc ID
-                                scheduleData.add(data);
-                            }
-                            callback.onSuccess(scheduleData);
-                        } else {
-                            callback.onFailure(task.getException());
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        List<Map<String, Object>> scheduleData = new ArrayList<>();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Map<String, Object> data = document.getData();
+                            data.put("id", document.getId());
+                            scheduleData.add(data);
                         }
+                        callback.onSuccess(scheduleData);
+                    } else {
+                        callback.onFailure(task.getException());
                     }
                 });
     }
@@ -113,6 +116,41 @@ public class ChildRepository {
         db.collection("children").document(childId)
                 .collection("immunizations").document(immunizationId)
                 .update("isCompleted", isCompleted)
+                .addOnSuccessListener(aVoid -> callback.onSuccess("Updated"))
+                .addOnFailureListener(callback::onFailure);
+    }
+
+    public void getChildById(String childId, ChildCallback callback) {
+        db.collection("children").document(childId).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        Child child = documentSnapshot.toObject(Child.class);
+                        if (child != null) {
+                            child.setId(documentSnapshot.getId());
+                            callback.onSuccess(child);
+                        }
+                    } else {
+                        callback.onFailure(new Exception("Child not found"));
+                    }
+                })
+                .addOnFailureListener(callback::onFailure);
+    }
+
+    public void updateChild(String childId, String name, String gender, Date dob,
+                            String bloodType, List<String> allergies,
+                            double weight, double height, FirestoreCallback callback) {
+
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("name", name);
+        updates.put("gender", gender);
+        updates.put("dateOfBirth", dob);
+        updates.put("bloodType", bloodType);
+        updates.put("allergies", allergies);
+        updates.put("latestHeight", height);
+        updates.put("latestWeight", weight);
+
+        db.collection("children").document(childId)
+                .update(updates)
                 .addOnSuccessListener(aVoid -> callback.onSuccess("Updated"))
                 .addOnFailureListener(callback::onFailure);
     }

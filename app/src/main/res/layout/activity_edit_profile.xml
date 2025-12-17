@@ -1,158 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/main"
-    android:background="#f8f9fa"
-    android:padding="20dp">
+    android:background="@color/white"
+    android:padding="24dp"
+    tools:context=".EditProfile">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/btnBack"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/ic_back_arrow"
+        app:tint="@color/slate_navy"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="Back" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        style="@style/Widget.Nurtura.TextView.Title"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:text="Edit Profile"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@id/btnBack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btnBack"
+        app:layout_constraintBottom_toBottomOf="@id/btnBack"
+        app:layout_constraintHorizontal_bias="0.4"/>
 
-        <TextView
-            android:id="@+id/tvEditProfileTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Edit Profile"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:textColor="#324355"
-            android:layout_marginBottom="24dp" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutAvatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <LinearLayout
-            android:id="@+id/profileEditCard"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:orientation="vertical"
-            android:elevation="4dp"
-            android:padding="20dp"
-            android:layout_marginBottom="20dp"
-            android:clipToPadding="false"
-            android:clipToOutline="true"
-            android:backgroundTint="@android:color/white"
-            android:backgroundTintMode="src_in"
-            android:shape="rectangle">
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivProfileAvatar"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="#F0F0F0"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_person_placeholder"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-            <ImageView
-                android:id="@+id/imgAvatar"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                android:layout_gravity="center_horizontal"
-                android:src="@drawable/ic_person_placeholder"
-                android:scaleType="centerCrop"
-                android:background="#fde0e9"
-                android:padding="10dp"
-                android:layout_marginBottom="16dp"
-                android:contentDescription="Profile Picture"
-                android:cropToPadding="true"
-                android:shape="oval" />
+        <View
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@drawable/circle_blue"
+            android:backgroundTint="@color/hot_pink"
+            app:layout_constraintBottom_toBottomOf="@id/ivProfileAvatar"
+            app:layout_constraintEnd_toEndOf="@id/ivProfileAvatar"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Full Name"
-                android:textColor="#324355"
-                android:textSize="14sp"
-                android:layout_marginTop="8dp" />
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@android:drawable/ic_menu_camera"
+            app:tint="@color/white"
+            app:layout_constraintBottom_toBottomOf="@id/ivProfileAvatar"
+            app:layout_constraintEnd_toEndOf="@id/ivProfileAvatar"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"/>
 
-            <EditText
-                android:id="@+id/etName"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/input_background_soft"
-                android:hint="Enter name"
-                android:textColor="#324355"
-                android:textColorHint="#8a9bab"
-                android:paddingHorizontal="16dp"
-                android:layout_marginBottom="16dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/tvDobLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Date of Birth"
-                android:textColor="#324355"
-                android:textSize="14sp"
-                android:layout_marginTop="8dp"
-                android:visibility="gone" />
+    <TextView
+        android:id="@+id/tvChangePhoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change Photo"
+        android:textColor="@color/hot_pink"
+        android:textStyle="bold"
+        android:textSize="12sp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/layoutAvatar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-            <EditText
-                android:id="@+id/etDob"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/input_background_soft"
-                android:hint="DD MMM YYYY"
-                android:textColor="#324355"
-                android:textColorHint="#8a9bab"
-                android:paddingHorizontal="16dp"
-                android:visibility="gone"
-                android:layout_marginBottom="16dp" />
+    <TextView
+        android:id="@+id/lblFullName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Full Name"
+        android:layout_marginTop="32dp"
+        android:textColor="@color/slate_navy"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvChangePhoto"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Phone Number"
-                android:textColor="#324355"
-                android:textSize="14sp" />
+    <EditText
+        android:id="@+id/etFullName"
+        style="@style/Widget.Nurtura.EditText"
+        android:layout_marginTop="8dp"
+        android:hint="Enter your name"
+        android:inputType="textPersonName"
+        app:layout_constraintTop_toBottomOf="@id/lblFullName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-            <EditText
-                android:id="@+id/etPhone"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/input_background_soft"
-                android:hint="Enter phone number"
-                android:textColor="#324355"
-                android:textColorHint="#8a9bab"
-                android:paddingHorizontal="16dp"
-                android:inputType="phone"
-                android:layout_marginBottom="16dp" />
+    <TextView
+        android:id="@+id/lblEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Email Address"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/slate_navy"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etFullName"/>
 
+    <EditText
+        android:id="@+id/etEmail"
+        style="@style/Widget.Nurtura.EditText"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/edittext_bg"
+        android:backgroundTint="#F5F5F5"
+        android:hint="email@example.com"
+        android:enabled="false"
+        android:textColorHint="#999"
+        android:textColor="#777"
+        app:layout_constraintTop_toBottomOf="@id/lblEmail"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Address"
-                android:textColor="#324355"
-                android:textSize="14sp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Email cannot be changed"
+        android:textSize="10sp"
+        android:textColor="#999"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="4dp"
+        app:layout_constraintTop_toBottomOf="@id/etEmail"
+        app:layout_constraintStart_toStartOf="@id/etEmail"/>
 
-            <EditText
-                android:id="@+id/etAddress"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="@drawable/input_background_soft"
-                android:hint="Enter address"
-                android:textColor="#324355"
-                android:textColorHint="#8a9bab"
-                android:gravity="top"
-                android:padding="16dp"
-                android:layout_marginBottom="24dp" />
+    <Button
+        android:id="@+id/btnSave"
+        style="@style/Widget.Nurtura.Button.Primary"
+        android:layout_marginTop="40dp"
+        android:text="Save Changes"
+        app:layout_constraintTop_toBottomOf="@id/etEmail"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-
-            <Button
-                android:id="@+id/btnSave"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:text="Save Changes"
-                android:textColor="#324355"
-                android:background="#c9e7ff"
-                android:layout_marginBottom="12dp"
-                android:stateListAnimator="@null"
-                android:letterSpacing="0.02" />
-
-            <Button
-                android:id="@+id/btnCancel"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:text="Cancel"
-                android:textColor="#324355"
-                android:background="#fde0e9"
-                android:stateListAnimator="@null"
-                android:letterSpacing="0.02" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

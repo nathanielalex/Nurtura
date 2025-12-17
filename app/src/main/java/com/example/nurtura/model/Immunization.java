@@ -8,6 +8,8 @@ public class Immunization {
     private String date;
     private boolean isCompleted;
 
+    public Immunization() {}
+
     public Immunization(String id, String name, String schedule, String dueStatus, String date, boolean isCompleted) {
         this.id = id;
         this.name = name;

@@ -66,7 +66,10 @@ public class ChatListAdapter extends FirestoreRecyclerAdapter<ChatRoom, ChatList
 
         String finalOtherUserId = otherUserId;
         chatViewHolder.itemView.setOnClickListener(v -> {
-            String chatId = getSnapshots().getSnapshot(i).getId();
+            int position = chatViewHolder.getBindingAdapterPosition();
+            if (position == RecyclerView.NO_POSITION) return; // guard against invalid position
+
+            String chatId = getSnapshots().getSnapshot(position).getId();
             listener.onChatClick(chatId, finalOtherUserId);
         });
     }

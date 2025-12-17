@@ -66,9 +66,18 @@ public class ChatActivity extends AppCompatActivity {
         chatId = getIntent().getStringExtra("CHAT_ID");
         otherUserId = getIntent().getStringExtra("OTHER_USER_ID");
 
+        recyclerChatMessages = findViewById(R.id.recyclerChatMessages);
+        etMessageInput = findViewById(R.id.etMessageInput);
+        btnSend = findViewById(R.id.btnSend);
+        btnBack = findViewById(R.id.btnBack);
+        txtChatUserName = findViewById(R.id.txtChatUserName);
+        imgChatAvatar = findViewById(R.id.imgChatAvatar);
+
+
         userRepository.getUserByUid(otherUserId, new UserRepository.UserCallback() {
             @Override
             public void onSuccess(Map<String, Object> userData) {
+                if (isFinishing() || isDestroyed()) return;
                 Object name = userData.get("name");
                 otherUserName = name != null ? name.toString() : "Unknown User";
                 txtChatUserName.setText(otherUserName);
@@ -76,6 +85,7 @@ public class ChatActivity extends AppCompatActivity {
 
             @Override
             public void onNotFound() {
+                if (isFinishing() || isDestroyed()) return;
                 Toast.makeText(
                         ChatActivity.this,
                         "User not found",
@@ -89,6 +99,7 @@ public class ChatActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Exception e) {
+                if (isFinishing() || isDestroyed()) return;
                 Log.e("ChatActivity", "Failed to load user", e);
 
                 Toast.makeText(
@@ -109,12 +120,6 @@ public class ChatActivity extends AppCompatActivity {
             return;
         }
 
-        recyclerChatMessages = findViewById(R.id.recyclerChatMessages);
-        etMessageInput = findViewById(R.id.etMessageInput);
-        btnSend = findViewById(R.id.btnSend);
-        btnBack = findViewById(R.id.btnBack);
-        txtChatUserName = findViewById(R.id.txtChatUserName);
-        imgChatAvatar = findViewById(R.id.imgChatAvatar);
 
         btnBack.setOnClickListener(v -> finish());
 

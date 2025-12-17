@@ -17,6 +17,7 @@ import com.example.nurtura.R;
 import com.example.nurtura.adapter.ChatListAdapter;
 import com.example.nurtura.model.ChatRoom;
 import com.example.nurtura.repository.ChatRepository;
+import com.example.nurtura.utils.WrapContentLinearLayoutManager;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -36,7 +37,8 @@ public class StaffChatFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_staff_chat, container, false);
         recyclerView = view.findViewById(R.id.recyclerChatList);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
 
         chatRepository = new ChatRepository();
         currentUserId = FirebaseAuth.getInstance().getUid();
@@ -70,6 +72,7 @@ public class StaffChatFragment extends Fragment {
         });
 
         recyclerView.setAdapter(adapter);
+        recyclerView.setItemAnimator(null);
     }
 
     @Override

@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment;
 import com.example.nurtura.ArticleActivity;
 import com.example.nurtura.R;
 import com.example.nurtura.ScheduleActivity;
+import com.example.nurtura.auth.UserRepository;
 import com.example.nurtura.model.Child;
 import com.example.nurtura.repository.ChildRepository;
 import com.google.android.material.card.MaterialCardView;
@@ -41,6 +42,7 @@ public class HomeFragment extends Fragment {
     private TextView tvWelcome, tvInitials;
     private TextView tvNextVaccineName, tvNextVaccineDate, tvNextVaccineStatus;
     private ChildRepository childRepository;
+    private UserRepository userRepository;
     private FirebaseFirestore db;
     private static final int REQUEST_CALL_PERMISSION = 1;
     private static final String MIDWIFE_NUMBER = "08123456789";
@@ -63,6 +65,7 @@ public class HomeFragment extends Fragment {
 
         db = FirebaseFirestore.getInstance();
         childRepository = new ChildRepository();
+        userRepository = new UserRepository();
 
         btnPanic.setOnClickListener(v -> makePanicCall());
 
@@ -110,18 +113,35 @@ public class HomeFragment extends Fragment {
 
     private void loadData() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user == null) return;
 
-        String name = user.getDisplayName();
-
-        if (name != null && !name.trim().isEmpty()) {
-            tvWelcome.setText("Hello, " + name);
-            tvInitials.setText(name.substring(0, 1).toUpperCase());
-        } else {
-            // Fallback if displayName is empty
+        if (user == null) {
             tvWelcome.setText("Hello");
-            tvInitials.setText("?");
+            return;
         }
+
+        String userId = user.getUid();
+
+        userRepository.getUserByUid(userId, new UserRepository.UserCallback() {
+            @Override
+            public void onSuccess(Map<String, Object> userData) {
+                String name = userData.get("name").toString();
+                tvWelcome.setText("Hello, " + name);
+                tvInitials.setText(name.substring(0, 1).toUpperCase());
+            }
+
+            @Override
+            public void onNotFound() {
+                tvWelcome.setText("Hello");
+                tvInitials.setText("NA");
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                tvWelcome.setText("Hello");
+                tvInitials.setText("NA");
+                Toast.makeText(getContext(), "Error loading user", Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
         childRepository.getChildrenByParentId(user.getUid(), new ChildRepository.ChildrenCallback() {

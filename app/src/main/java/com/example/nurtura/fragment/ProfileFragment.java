@@ -18,6 +18,7 @@ import com.example.nurtura.AddChildActivity;
 import com.example.nurtura.EditProfile;
 import com.example.nurtura.LoginActivity;
 import com.example.nurtura.R;
+import com.example.nurtura.auth.UserRepository;
 import com.example.nurtura.model.Child;
 import com.example.nurtura.repository.ChildRepository;
 import com.google.android.material.chip.Chip;
@@ -26,6 +27,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.List;
+import java.util.Map;
 
 public class ProfileFragment extends Fragment {
 
@@ -34,7 +36,7 @@ public class ProfileFragment extends Fragment {
     private ChipGroup chipGroupChildren;
     private ChildRepository childRepository;
     private Child currentSelectedChild;
-
+    private UserRepository userRepository;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -50,6 +52,7 @@ public class ProfileFragment extends Fragment {
         Button btnSignOut = view.findViewById(R.id.btnSignOut);
 
         childRepository = new ChildRepository();
+        userRepository = new UserRepository();
 
         btnEditMother.setOnClickListener(v -> startActivity(new Intent(getActivity(), EditProfile.class)));
         btnAddChild.setOnClickListener(v -> startActivity(new Intent(getActivity(), AddChildActivity.class)));
@@ -82,15 +85,34 @@ public class ProfileFragment extends Fragment {
 
     private void loadUserData() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user == null) return;
 
-        if (user.getDisplayName() != null && !user.getDisplayName().isEmpty()) {
-            txtMotherName.setText(user.getDisplayName());
-        } else {
-            txtMotherName.setText("Mother");
+        if (user == null) {
+            txtMotherName.setText("User not logged in");
+            return;
         }
 
-        loadChildren(user.getUid());
+        String userId = user.getUid();
+
+        userRepository.getUserByUid(userId, new UserRepository.UserCallback() {
+            @Override
+            public void onSuccess(Map<String, Object> userData) {
+                Object name = userData.get("name");
+                txtMotherName.setText(name != null ? name.toString() : "No name");
+            }
+
+            @Override
+            public void onNotFound() {
+                txtMotherName.setText("User not found");
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                txtMotherName.setText("Error");
+                Toast.makeText(getContext(), "Error loading user", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        loadChildren(userId);
     }
 
     private void loadChildren(String parentId) {

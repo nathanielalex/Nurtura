@@ -40,18 +40,24 @@ public class VaccineScheduleAdapter extends RecyclerView.Adapter<VaccineSchedule
         holder.txtVaccineName.setText(item.getName());
         holder.txtDueDate.setText(item.getDate());
 
-        if(item.getDueStatus().equals("OVERDUE")) {
+        String status = item.getDueStatus();
+
+        if ("OVERDUE".equals(status)) {
             holder.chipStatus.setText("Overdue");
             holder.chipStatus.setTextColor(Color.parseColor("#d32f2f"));
             holder.chipStatus.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ffebee")));
-        } else if (item.getDueStatus().equals("UPCOMING")) {
+        } else if ("UPCOMING".equals(status)) {
             holder.chipStatus.setText("Upcoming");
             holder.chipStatus.setTextColor(Color.parseColor("#1976d2"));
             holder.chipStatus.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#e3f2fd")));
-        } else if (item.getDueStatus().equals("DONE")) {
+        } else if ("DONE".equals(status)) {
             holder.chipStatus.setText("Done");
             holder.chipStatus.setTextColor(Color.parseColor("#388e3c"));
             holder.chipStatus.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#e8f5e9")));
+        } else {
+            // Optional: Handle the null/unknown case
+            holder.chipStatus.setText("Unknown");
+            holder.chipStatus.setTextColor(Color.GRAY);
         }
 
 

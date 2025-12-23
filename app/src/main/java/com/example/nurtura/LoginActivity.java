@@ -19,11 +19,10 @@ import com.example.nurtura.auth.GoogleSignInManager;
 import com.example.nurtura.auth.UserRepository;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private static final String TAG = "GoogleSignIn";
+    private static final String TAG = "LoginActivity";
     private AuthRepository authRepository;
     private FirebaseAuth mAuth;
     private GoogleSignInManager googleSignInManager;
@@ -39,10 +38,10 @@ public class LoginActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
         authRepository = new AuthRepository();
         userRepository = new UserRepository();
         googleSignInManager = new GoogleSignInManager(this);
-
         mAuth = FirebaseAuth.getInstance();
 
         EditText emailField = findViewById(R.id.etEmail);
@@ -52,10 +51,16 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn.setOnClickListener(v -> {
             String email = emailField.getText().toString().trim();
             String password = passwordField.getText().toString().trim();
+
+            if (email.isEmpty() || password.isEmpty()) {
+                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             authRepository.loginUser(this, email, password, (success, userId) -> {
                 if(success) {
                     Log.d(TAG, "signInWithEmail:success");
-                    authorizeRole(userId);
+                    fetchRoleAndNavigate(userId);
                 } else {
                     Log.w(TAG, "signInWithEmail:failure");
                     Toast.makeText(LoginActivity.this, "Login Failed.", Toast.LENGTH_SHORT).show();
@@ -73,59 +78,43 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void authorizeRole(String userId) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("users").document(userId).get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    if(documentSnapshot.exists()) {
-                        String role = documentSnapshot.getString("role");
-
-                        if("staff".equals(role)){
-                            Intent intent = new Intent(this, StaffActivity.class);
-                            startActivity(intent);
-                        } else if("patient".equals(role)) {
-                            Intent intent = new Intent(this, MainActivity.class);
-                            startActivity(intent);
-                        } else {
-                            Toast.makeText(this, "Error: Unknown role", Toast.LENGTH_SHORT).show();
-                        }
-                        finish();
-                    } else {
-                        Toast.makeText(this, "User data not found", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(this, "Login Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                });
-    }
-
     @Override
     protected void onStart() {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
+        if (currentUser != null) {
+            fetchRoleAndNavigate(currentUser.getUid());
+        }
     }
 
-    private void updateUI(FirebaseUser user) {
-        if (user != null) {
-            Log.d(TAG, "Logged in as: " + user.getEmail());
-
-            userRepository.getRole(user.getUid(), new UserRepository.RoleCallback() {
-                @Override
-                public void onRoleReceived(String role) {
-                    if(role.equals("staff")) {
-                        startActivity(new Intent(LoginActivity.this, StaffActivity.class));
-                    }
-                    else {
-                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                    }
+    private void fetchRoleAndNavigate(String userId) {
+        userRepository.getRole(userId, new UserRepository.RoleCallback() {
+            @Override
+            public void onRoleReceived(String role) {
+                if (role != null) {
+                    navigateToDashboard(role);
+                } else {
+                    Log.e(TAG, "Role is null for user: " + userId);
+                    Toast.makeText(LoginActivity.this, "User data not found", Toast.LENGTH_SHORT).show();
                 }
-            });
+            }
+        });
+    }
 
-            finish();
+    private void navigateToDashboard(String role) {
+        Intent intent;
+        if ("staff".equalsIgnoreCase(role)) {
+            intent = new Intent(LoginActivity.this, StaffActivity.class);
+        } else if ("patient".equalsIgnoreCase(role)) {
+            intent = new Intent(LoginActivity.this, MainActivity.class);
         } else {
-            Log.d(TAG, "User not logged in");
+            Toast.makeText(this, "Unknown role: " + role, Toast.LENGTH_SHORT).show();
+            return;
         }
+
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 
 }

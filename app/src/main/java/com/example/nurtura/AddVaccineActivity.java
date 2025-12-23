@@ -15,7 +15,7 @@ import com.example.nurtura.repository.VaccineRepository;
 
 public class AddVaccineActivity extends AppCompatActivity {
     private ActivityAddVaccineBinding binding;
-    VaccineRepository vaccineRepository;
+    private VaccineRepository vaccineRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

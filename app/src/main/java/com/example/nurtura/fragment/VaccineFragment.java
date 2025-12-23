@@ -33,9 +33,9 @@ public class VaccineFragment extends Fragment {
 
         vaccineRepository = new VaccineRepository();
 
-        loadVaccines();
         setupRecyclerView();
         setupFab();
+        loadVaccines();
 
         return binding.getRoot();
     }
@@ -58,22 +58,7 @@ public class VaccineFragment extends Fragment {
         vaccineRepository.getVaccines(new VaccineRepository.VaccineCallback() {
             @Override
             public void onSuccess(List<Vaccine> vaccines) {
-                Log.d("VaccineFragment", "onSuccess called, vaccines size: " + (vaccines != null ? vaccines.size() : "null"));
-
-                if (vaccines != null) {
-                    for (int i = 0; i < vaccines.size(); i++) {
-                        Vaccine v = vaccines.get(i);
-                        Log.d("VaccineFragment", "Vaccine " + i + ": "
-                                + "Name=" + v.getName()
-                                + ", Description=" + v.getDescription()
-                                + ", RecommendedAge=" + v.getRecommendedAgeInMonthsInt()
-                                + ", SideEffects=" + v.getSideEffectsInfo()
-                                + ", Mandatory=" + v.isMandatory());
-                    }
-                }
-
                 vaccineAdapter.updateList(vaccines);
-                Log.d("VaccineFragment", "Adapter updated with new vaccine list");
             }
 
             @Override

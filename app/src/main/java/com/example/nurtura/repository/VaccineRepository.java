@@ -18,6 +18,11 @@ public class VaccineRepository {
         void onFailure(Exception e);
     }
 
+    public interface InsertCallback {
+        void onSuccess();
+        void onFailure(Exception e);
+    }
+
     public void getVaccines(VaccineCallback callback) {
         db.collection("vaccines")
                 .orderBy("recommendedAgeInMonths", Query.Direction.ASCENDING)
@@ -37,6 +42,19 @@ public class VaccineRepository {
                 })
                 .addOnFailureListener(e -> {
                     Log.e(TAG, "Error fetching vaccines", e);
+                    callback.onFailure(e);
+                });
+    }
+    public void insertVaccine(Vaccine vaccine, InsertCallback callback) {
+        db.collection("vaccines")
+                .add(vaccine)
+                .addOnSuccessListener(documentReference -> {
+                    Log.d(TAG, "Vaccine added with ID: " + documentReference.getId());
+                    vaccine.setId(documentReference.getId());
+                    callback.onSuccess();
+                })
+                .addOnFailureListener(e -> {
+                    Log.e(TAG, "Error adding vaccine", e);
                     callback.onFailure(e);
                 });
     }

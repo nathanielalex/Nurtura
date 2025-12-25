@@ -24,6 +24,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "WEB_CLIENT_KEY", "\"${localProperties['WEB_CLIENT_KEY']}\""
+        buildConfigField "String", "API_KEY", "\"${localProperties['API_KEY']}\""
     }
 
     buildTypes {
@@ -51,6 +52,7 @@ dependencies {
     implementation libs.credentials.play.services.auth
     implementation libs.googleid
     implementation libs.firebase.ui.firestore
+    implementation libs.volley
     implementation 'com.github.bumptech.glide:glide:5.0.5'
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit

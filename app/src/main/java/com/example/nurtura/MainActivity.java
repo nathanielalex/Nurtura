@@ -19,6 +19,8 @@ import com.example.nurtura.fragment.ChatFragment;
 import com.example.nurtura.fragment.HomeFragment;
 import com.example.nurtura.fragment.MilestoneFragment;
 import com.example.nurtura.fragment.ProfileFragment;
+import com.example.nurtura.model.Recipe;
+import com.example.nurtura.service.RecipeService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,6 +28,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {

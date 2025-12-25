@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,12 +19,16 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.example.nurtura.ArticleActivity;
+import com.example.nurtura.MainActivity;
 import com.example.nurtura.R;
 import com.example.nurtura.ScheduleActivity;
 import com.example.nurtura.auth.UserRepository;
 import com.example.nurtura.model.Child;
+import com.example.nurtura.model.Recipe;
 import com.example.nurtura.repository.ChildRepository;
+import com.example.nurtura.service.RecipeService;
 import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -40,12 +45,14 @@ import java.util.concurrent.TimeUnit;
 public class HomeFragment extends Fragment {
 
     private TextView tvWelcome, tvInitials;
-    private TextView tvNextVaccineName, tvNextVaccineDate, tvNextVaccineStatus;
+    private TextView tvNextVaccineName, tvNextVaccineDate, tvNextVaccineStatus, tvRecipeTitle, tvRecipeTime;
+    private ImageView recipeImage;
     private ChildRepository childRepository;
     private UserRepository userRepository;
     private FirebaseFirestore db;
     private static final int REQUEST_CALL_PERMISSION = 1;
     private static final String MIDWIFE_NUMBER = "08123456789";
+    private RecipeService recipeService;
 
     @Nullable
     @Override
@@ -79,6 +86,11 @@ public class HomeFragment extends Fragment {
         cardHealthRubric.setOnClickListener(v -> startActivity(new Intent(getActivity(), ArticleActivity.class)));
 
         btnViewSchedule.setOnClickListener(v -> startActivity(new Intent(getActivity(), ScheduleActivity.class)));
+
+        recipeService = new RecipeService(requireContext());
+        tvRecipeTitle = view.findViewById(R.id.tvRecipeTitle);
+        tvRecipeTime = view.findViewById(R.id.tvRecipeTime);
+        recipeImage = view.findViewById(R.id.recipeImage);
 
         return view;
     }
@@ -158,6 +170,8 @@ public class HomeFragment extends Fragment {
             @Override
             public void onFailure(Exception e) {}
         });
+
+        setupRecipe();
     }
 
     private void loadScheduleForChild(String childId) {
@@ -171,7 +185,7 @@ public class HomeFragment extends Fragment {
 
                 for (Map<String, Object> item : scheduleData) {
                     Boolean isCompleted = (Boolean) item.get("isCompleted");
-                    if (isCompleted != null && isCompleted) continue; // Skip completed
+                    if (isCompleted != null && isCompleted) continue;
 
                     Timestamp ts = (Timestamp) item.get("dueDate");
                     String name = (String) item.get("vaccineName");
@@ -187,7 +201,6 @@ public class HomeFragment extends Fragment {
                 }
 
                 if (nearestItem == null && !scheduleData.isEmpty()) {
-                    // Check if all are done
                     boolean allDone = true;
                     for(Map<String, Object> i : scheduleData) {
                         if(i.get("isCompleted") == null || !(boolean)i.get("isCompleted")) {
@@ -233,6 +246,23 @@ public class HomeFragment extends Fragment {
             public void onFailure(Exception e) {
                 tvNextVaccineName.setText("Error");
                 tvNextVaccineDate.setText("Could not load schedule");
+            }
+        });
+    }
+
+    private void setupRecipe() {
+        recipeService.getRecipes(new RecipeService.RecipeResponseListener() {
+            @Override
+            public void onResponse(List<Recipe> recipes) {
+                Recipe recipe = recipes.get(0);
+                tvRecipeTitle.setText(recipe.getTitle());
+                tvRecipeTime.setText("Ready in " + recipe.getReadyInMinutes() + " mins");
+                Glide.with(requireContext()).load(recipe.getImageUrl()).into(recipeImage);
+            }
+
+            @Override
+            public void onError(String message) {
+                Toast.makeText(requireContext(), "Error: " + message, Toast.LENGTH_SHORT).show();
             }
         });
     }

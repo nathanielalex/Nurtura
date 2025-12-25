@@ -21,6 +21,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Nurtura">
         <activity
+            android:name=".RecipeDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".AddVaccineActivity"
             android:exported="false" />
         <activity

@@ -23,6 +23,7 @@ import com.bumptech.glide.Glide;
 import com.example.nurtura.ArticleActivity;
 import com.example.nurtura.MainActivity;
 import com.example.nurtura.R;
+import com.example.nurtura.RecipeDetailActivity;
 import com.example.nurtura.ScheduleActivity;
 import com.example.nurtura.auth.UserRepository;
 import com.example.nurtura.model.Child;
@@ -49,10 +50,10 @@ public class HomeFragment extends Fragment {
     private ImageView recipeImage;
     private ChildRepository childRepository;
     private UserRepository userRepository;
-    private FirebaseFirestore db;
     private static final int REQUEST_CALL_PERMISSION = 1;
     private static final String MIDWIFE_NUMBER = "08123456789";
     private RecipeService recipeService;
+    private Recipe selectedRecipe;
 
     @Nullable
     @Override
@@ -70,7 +71,6 @@ public class HomeFragment extends Fragment {
         tvNextVaccineDate = view.findViewById(R.id.tvNextVaccineDate);
         tvNextVaccineStatus = view.findViewById(R.id.tvNextVaccineStatus);
 
-        db = FirebaseFirestore.getInstance();
         childRepository = new ChildRepository();
         userRepository = new UserRepository();
 
@@ -91,6 +91,13 @@ public class HomeFragment extends Fragment {
         tvRecipeTitle = view.findViewById(R.id.tvRecipeTitle);
         tvRecipeTime = view.findViewById(R.id.tvRecipeTime);
         recipeImage = view.findViewById(R.id.recipeImage);
+
+        MaterialCardView cardRecipe = view.findViewById(R.id.cardRecipe);
+        cardRecipe.setOnClickListener(v -> {
+            Intent intent = new Intent(requireContext(), RecipeDetailActivity.class);
+            intent.putExtra("recipe_data", selectedRecipe);
+            startActivity(intent);
+        });
 
         return view;
     }
@@ -254,10 +261,10 @@ public class HomeFragment extends Fragment {
         recipeService.getRecipes(new RecipeService.RecipeResponseListener() {
             @Override
             public void onResponse(List<Recipe> recipes) {
-                Recipe recipe = recipes.get(0);
-                tvRecipeTitle.setText(recipe.getTitle());
-                tvRecipeTime.setText("Ready in " + recipe.getReadyInMinutes() + " mins");
-                Glide.with(requireContext()).load(recipe.getImageUrl()).into(recipeImage);
+                selectedRecipe = recipes.get(0);
+                tvRecipeTitle.setText(selectedRecipe.getTitle());
+                tvRecipeTime.setText("Ready in " + selectedRecipe.getReadyInMinutes() + " mins");
+                Glide.with(requireContext()).load(selectedRecipe.getImageUrl()).into(recipeImage);
             }
 
             @Override

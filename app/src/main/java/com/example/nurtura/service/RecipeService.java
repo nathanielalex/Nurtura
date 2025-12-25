@@ -40,18 +40,40 @@ public class RecipeService {
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
                     try {
-                        List<Recipe> recipes = new ArrayList<>();
-                        JSONArray array = response.getJSONArray("recipes");
-                        for (int i = 0; i < array.length(); i++) {
-                            JSONObject obj = array.getJSONObject(i);
-                            recipes.add(new Recipe(
-                                    obj.getString("title"),
-                                    obj.getString("image"),
-                                    obj.getInt("readyInMinutes")
-                            ));
+                        List<Recipe> recipesList = new ArrayList<>();
+                        JSONArray recipesArray = response.getJSONArray("recipes");
+
+                        for (int i = 0; i < recipesArray.length(); i++) {
+                            JSONObject recipeObj = recipesArray.getJSONObject(i);
+
+                            int id = recipeObj.getInt("id");
+                            String title = recipeObj.getString("title");
+                            String image = recipeObj.getString("image");
+                            int time = recipeObj.getInt("readyInMinutes");
+
+                            List<String> ingredients = new ArrayList<>();
+                            JSONArray ingredientsArray = recipeObj.getJSONArray("extendedIngredients");
+                            for (int j = 0; j < ingredientsArray.length(); j++) {
+                                ingredients.add(ingredientsArray.getJSONObject(j).getString("original"));
+                            }
+
+                            List<String> steps = new ArrayList<>();
+                            JSONArray analyzedInstructions = recipeObj.getJSONArray("analyzedInstructions");
+                            if (analyzedInstructions.length() > 0) {
+                                JSONArray stepsArray = analyzedInstructions.getJSONObject(0).getJSONArray("steps");
+                                for (int k = 0; k < stepsArray.length(); k++) {
+                                    steps.add(stepsArray.getJSONObject(k).getString("step"));
+                                }
+                            }
+
+                            recipesList.add(new Recipe(id, title, image, time, ingredients, steps));
                         }
-                        listener.onResponse(recipes); // Send data back
-                    } catch (JSONException e) { listener.onError("JSON Error"); }
+
+                        listener.onResponse(recipesList);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 },
                 error -> listener.onError(error.getMessage())
         );

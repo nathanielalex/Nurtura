@@ -12,6 +12,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
 import com.example.nurtura.model.Recipe;
+import com.google.android.material.imageview.ShapeableImageView;
 
 public class RecipeDetailActivity extends AppCompatActivity {
 
@@ -25,11 +26,11 @@ public class RecipeDetailActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        ImageView imageView = findViewById(R.id.detailImage);
-        TextView titleView = findViewById(R.id.detailTitle);
-        TextView timeView = findViewById(R.id.detailTime);
-        TextView ingredientsView = findViewById(R.id.detailIngredients);
-        TextView instructionsView = findViewById(R.id.detailInstructions);
+        ImageView imageView = findViewById(R.id.imgDetailRecipe);
+        TextView titleView = findViewById(R.id.txtRecipeTitle);
+        TextView timeView = findViewById(R.id.txtReadyTime);
+        TextView ingredientsView = findViewById(R.id.txtIngredientsList);
+        TextView instructionsView = findViewById(R.id.txtInstructionsList);
 
         Recipe recipe = (Recipe) getIntent().getSerializableExtra("recipe_data");
 

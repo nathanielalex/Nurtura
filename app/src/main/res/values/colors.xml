@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="hot_pink">#f06292</color>
-    <color name="pink_pastel">#FDE0E9</color>
-    <color name="blue_pastel">#C9E7FF</color>
-    <color name="slate_navy">#243446</color>
-    <color name="soft_graphite">#4C5A66</color>
-
-    <color name="linen_white">#FAF7F5</color>
-    <color name="taupe_mist">#D8D2CD</color>
-
-    <color name="gentle_coral">#FFB8A8</color>
-    <color name="sage_gray_green">#BFD4C4</color>
-    <color name="honey_gold">#F6D27A</color>
-
+    <!-- Base Palette Colors -->
+    <color name="background">#FAF7F5</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="surface_variant">#FDF5E6</color>
+    <color name="text_primary">#1E293B</color>
+    <color name="text_secondary">#4B5563</color>
+    <color name="stroke">#D1D5DB</color>
+    <color name="accent_primary">#EC4899</color>
+    <color name="accent_secondary">#FDE0E9</color>
+    <color name="accent_tertiary">#BFDBFE</color>
     <color name="panic_red">#E53935</color>
-    <color name="white">#FFFFFFFF</color>
+
+    <!-- Common/Transparent -->
+    <color name="white">#FFFFFF</color>
+    <color name="transparent">#00000000</color>
+    <color name="scrim">#80000000</color>
 </resources>

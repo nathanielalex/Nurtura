@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="16dp"
-    app:cardBackgroundColor="@android:color/white"
+    app:cardBackgroundColor="@color/surface"
     app:cardCornerRadius="24dp"
     app:cardElevation="2dp"
     app:strokeWidth="0dp">
@@ -18,12 +18,12 @@
             android:id="@+id/imgAvatarChild"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:background="#f0f0f0"
+            android:background="@color/transparent"
             android:padding="8dp"
             android:scaleType="centerCrop"
             android:src="@android:drawable/ic_menu_my_calendar"
             app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
-            app:tint="#888888"
+            app:tint="@color/accent_tertiary"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -45,7 +45,7 @@
                 android:alpha="0.7"
                 android:text="CHILD"
                 android:textAllCaps="true"
-                android:textColor="#324355"
+                android:textColor="@color/text_secondary"
                 android:textSize="11sp"
                 android:textStyle="bold" />
 
@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-medium"
                 android:text="Child Name"
-                android:textColor="#324355"
+                android:textColor="@color/text_primary"
                 android:textSize="18sp" />
 
             <TextView
@@ -64,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:text="Born: 00 Month 0000"
-                android:textColor="#324355"
+                android:textColor="@color/text_primary"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -78,8 +78,8 @@
             android:paddingBottom="10dp"
             android:text="Edit Information"
             android:textAllCaps="false"
-            android:textColor="#324355"
-            app:backgroundTint="#fde0e9"
+            android:textColor="@color/accent_primary"
+            app:backgroundTint="@color/accent_secondary"
             app:cornerRadius="12dp"
             app:layout_constraintTop_toBottomOf="@id/imgAvatarChild"
             app:layout_constraintStart_toStartOf="parent"

@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F9FA"
+    android:background="@color/background"
     tools:context=".service.ArticleDetailActivity">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -26,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
-                app:contentScrim="@color/hot_pink"
+                app:contentScrim="@color/accent_primary"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 app:expandedTitleTextAppearance="@android:color/transparent"
                 app:collapsedTitleTextAppearance="@style/TextAppearance.AppCompat.Title">
@@ -51,7 +51,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     app:layout_collapseMode="pin"
-                    app:navigationIcon="@drawable/ic_back_arrow" /> </com.google.android.material.appbar.CollapsingToolbarLayout>
+                    app:navigationIcon="@drawable/ic_back_arrow" />
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -74,7 +75,7 @@
                     android:layout_width="40dp"
                     android:layout_height="4dp"
                     android:layout_gravity="center"
-                    android:background="#E0E0E0"
+                    android:background="@color/text_secondary"
                     android:layout_marginBottom="24dp"/>
 
                 <LinearLayout
@@ -90,10 +91,10 @@
                         android:text="HEALTH TIP"
                         android:textSize="10sp"
                         android:textStyle="bold"
-                        android:textColor="@color/hot_pink"
+                        android:textColor="@color/accent_primary"
                         android:letterSpacing="0.1"
                         android:background="@drawable/bg_input_rounded"
-                        android:backgroundTint="#FEE2E2"
+                        android:backgroundTint="@color/accent_secondary"
                         android:paddingHorizontal="12dp"
                         android:paddingVertical="4dp"/>
 
@@ -102,7 +103,7 @@
                         android:layout_height="wrap_content"
                         android:text="•   5 min read"
                         android:textSize="12sp"
-                        android:textColor="#9E9E9E"
+                        android:textColor="@color/text_secondary"
                         android:layout_marginStart="12dp"/>
                 </LinearLayout>
 
@@ -113,7 +114,7 @@
                     android:text="Title Goes Here"
                     android:textSize="26sp"
                     android:textStyle="bold"
-                    android:textColor="@color/slate_navy"
+                    android:textColor="@color/text_primary"
                     android:fontFamily="@font/poppins_semibold"
                     android:layout_marginBottom="12dp" />
 
@@ -124,14 +125,14 @@
                     android:text="Subtitle goes here"
                     android:textSize="16sp"
                     android:lineSpacingMultiplier="1.2"
-                    android:textColor="#555"
+                    android:textColor="@color/text_secondary"
                     android:layout_marginBottom="24dp"
                     android:fontFamily="sans-serif-medium"/>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="#F0F0F0"
+                    android:background="@color/text_primary"
                     android:layout_marginBottom="24dp"/>
 
                 <TextView
@@ -140,7 +141,7 @@
                     android:layout_height="wrap_content"
                     android:text="Content..."
                     android:textSize="16sp"
-                    android:textColor="@color/soft_graphite"
+                    android:textColor="@color/text_primary"
                     android:lineSpacingExtra="8dp"
                     android:fontFamily="sans-serif"/>
 
@@ -149,17 +150,5 @@
         </androidx.core.widget.NestedScrollView>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@color/white"
-        app:elevation="16dp"
-        app:itemIconTint="@drawable/bottom_nav_color_selector"
-        app:itemTextColor="@drawable/bottom_nav_color_selector"
-        app:labelVisibilityMode="labeled"
-        app:menu="@menu/bottom_nav_menu" />
 
 </RelativeLayout>

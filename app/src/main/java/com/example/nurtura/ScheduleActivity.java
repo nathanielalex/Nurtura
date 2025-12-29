@@ -91,13 +91,13 @@ public class ScheduleActivity extends AppCompatActivity {
             Chip chip = (Chip) chipGroupFilter.getChildAt(i);
 
             if (chip.getId() == checkedId) {
-                chip.setChipBackgroundColorResource(R.color.hot_pink);
+                chip.setChipBackgroundColorResource(R.color.accent_primary);
                 chip.setTextColor(getResources().getColor(R.color.white));
                 chip.setChipStrokeWidth(0f);
             } else {
                 chip.setChipBackgroundColorResource(R.color.white);
-                chip.setTextColor(getResources().getColor(R.color.slate_navy));
-                chip.setChipStrokeColorResource(R.color.slate_navy);
+                chip.setTextColor(getResources().getColor(R.color.text_primary));
+                chip.setChipStrokeColorResource(R.color.text_primary);
                 chip.setChipStrokeWidth(3f); // Approx 1dp
             }
         }
@@ -180,18 +180,18 @@ public class ScheduleActivity extends AppCompatActivity {
 
                     chip.setChipBackgroundColorResource(android.R.color.transparent);
                     chip.setChipStrokeWidth(3f);
-                    chip.setChipStrokeColorResource(R.color.hot_pink);
-                    chip.setTextColor(getResources().getColor(R.color.slate_navy));
+                    chip.setChipStrokeColorResource(R.color.accent_primary);
+                    chip.setTextColor(getResources().getColor(R.color.text_primary));
 
                     chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
                         if (isChecked) {
                             currentChildId = (String) buttonView.getTag();
                             loadScheduleForChild(currentChildId);
-                            chip.setChipBackgroundColorResource(R.color.hot_pink);
+                            chip.setChipBackgroundColorResource(R.color.accent_primary);
                             chip.setTextColor(getResources().getColor(R.color.white));
                         } else {
                             chip.setChipBackgroundColorResource(android.R.color.transparent);
-                            chip.setTextColor(getResources().getColor(R.color.slate_navy));
+                            chip.setTextColor(getResources().getColor(R.color.text_primary));
                         }
                     });
 

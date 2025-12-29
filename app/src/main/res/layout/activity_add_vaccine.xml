@@ -6,7 +6,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f8f9fa"
+    android:background="@color/background"
     android:fillViewport="true">
 
     <LinearLayout
@@ -30,15 +30,14 @@
                 android:layout_height="32dp"
                 android:layout_marginEnd="12dp"
                 android:src="@android:drawable/ic_menu_close_clear_cancel"
-                app:tint="#324355"
+                app:tint="@color/text_secondary"
                 android:contentDescription="Close" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
                 android:text="Add New Vaccine"
-                android:textColor="#324355"
+                android:textColor="@color/accent_primary"
                 android:textSize="24sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -46,7 +45,7 @@
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@android:color/white"
+            app:cardBackgroundColor="@color/surface"
             app:cardCornerRadius="24dp"
             app:cardElevation="2dp"
             app:strokeWidth="0dp">
@@ -66,16 +65,14 @@
                     app:boxCornerRadiusBottomEnd="12dp"
                     app:boxCornerRadiusBottomStart="12dp"
                     app:boxCornerRadiusTopEnd="12dp"
-                    app:boxCornerRadiusTopStart="12dp"
-                    app:boxStrokeColor="#324355"
-                    app:hintTextColor="#324355">
+                    app:boxCornerRadiusTopStart="12dp">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etVaccineName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textCapWords"
-                        android:textColor="#324355" />
+                        android:textColor="@color/text_primary" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <LinearLayout
@@ -97,14 +94,14 @@
                         app:boxCornerRadiusTopEnd="12dp"
                         app:boxCornerRadiusTopStart="12dp"
                         app:suffixText="months"
-                        app:suffixTextColor="#888888">
+                        app:suffixTextColor="@color/text_primary">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etRecommendedAge"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="number"
-                            android:textColor="#324355" />
+                            android:textColor="@color/text_primary" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <LinearLayout
@@ -118,15 +115,15 @@
                             android:layout_height="wrap_content"
                             android:text="Mandatory"
                             android:textSize="12sp"
-                            android:textColor="#888888"/>
+                            android:textColor="@color/text_secondary"/>
 
                         <com.google.android.material.materialswitch.MaterialSwitch
                             android:id="@+id/swMandatory"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:checked="true"
-                            app:thumbTint="#324355"
-                            app:trackTint="#c9e7ff" />
+                            app:thumbTint="@color/text_primary"
+                            app:trackTint="@color/accent_tertiary" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -149,7 +146,7 @@
                         android:gravity="top|start"
                         android:inputType="textMultiLine|textCapSentences"
                         android:minLines="2"
-                        android:textColor="#324355" />
+                        android:textColor="@color/text_primary" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -163,7 +160,7 @@
                     app:boxCornerRadiusTopEnd="12dp"
                     app:boxCornerRadiusTopStart="12dp"
                     app:startIconDrawable="@android:drawable/ic_menu_info_details"
-                    app:startIconTint="#324355">
+                    app:startIconTint="@color/text_secondary">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etSideEffects"
@@ -172,7 +169,7 @@
                         android:gravity="top|start"
                         android:inputType="textMultiLine|textCapSentences"
                         android:minLines="2"
-                        android:textColor="#324355" />
+                        android:textColor="@color/text_primary" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.button.MaterialButton
@@ -182,10 +179,10 @@
                     android:layout_height="60dp"
                     android:text="Save Vaccine"
                     android:textAllCaps="false"
-                    android:textColor="#324355"
+                    android:textColor="@color/text_secondary"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    app:backgroundTint="#fde0e9"
+                    app:backgroundTint="@color/accent_secondary"
                     app:cornerRadius="30dp"
                     app:elevation="0dp" />
 

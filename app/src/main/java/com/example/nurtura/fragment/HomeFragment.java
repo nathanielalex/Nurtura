@@ -98,8 +98,13 @@ public class HomeFragment extends Fragment {
             intent.putExtra("recipe_data", selectedRecipe);
             startActivity(intent);
         });
-
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setupRecipe();
     }
 
     private void makePanicCall() {
@@ -177,8 +182,6 @@ public class HomeFragment extends Fragment {
             @Override
             public void onFailure(Exception e) {}
         });
-
-        setupRecipe();
     }
 
     private void loadScheduleForChild(String childId) {
@@ -218,7 +221,7 @@ public class HomeFragment extends Fragment {
                         tvNextVaccineName.setText("All Caught Up!");
                         tvNextVaccineDate.setText("Great job, Mom!");
                         tvNextVaccineStatus.setText("Completed");
-                        tvNextVaccineStatus.setTextColor(ContextCompat.getColor(getContext(), R.color.slate_navy));
+                        tvNextVaccineStatus.setTextColor(ContextCompat.getColor(getContext(), R.color.text_primary));
                         return;
                     }
                 }
@@ -241,7 +244,7 @@ public class HomeFragment extends Fragment {
                     tvNextVaccineStatus.setText(status);
 
                     if (days < 0) tvNextVaccineStatus.setTextColor(ContextCompat.getColor(getContext(), R.color.panic_red));
-                    else tvNextVaccineStatus.setTextColor(ContextCompat.getColor(getContext(), R.color.hot_pink));
+                    else tvNextVaccineStatus.setTextColor(ContextCompat.getColor(getContext(), R.color.accent_primary));
 
                 } else if (tvNextVaccineName.getText().toString().equals("Loading...")) {
                     tvNextVaccineName.setText("No upcoming vaccines");

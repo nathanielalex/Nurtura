@@ -6,7 +6,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/background"
     android:paddingHorizontal="30dp"
     android:padding="24dp"
     tools:context=".ScheduleActivity">
@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Vaccine Milestones"
-        android:textColor="@color/slate_navy"
+        android:textColor="@color/text_primary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -53,9 +53,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="All"
-            android:textColor="@color/slate_navy"
+            android:textColor="@color/text_primary"
             app:chipBackgroundColor="@color/white"
-            app:chipStrokeColor="@color/slate_navy"
+            app:chipStrokeColor="@color/text_primary"
             app:chipStrokeWidth="1dp" />
 
         <com.google.android.material.chip.Chip
@@ -65,9 +65,9 @@
             android:layout_height="wrap_content"
             android:checked="true"
             android:text="Not Done"
-            android:textColor="@color/slate_navy"
+            android:textColor="@color/text_primary"
             app:chipBackgroundColor="@color/white"
-            app:chipStrokeColor="@color/slate_navy"
+            app:chipStrokeColor="@color/text_primary"
             app:chipStrokeWidth="1dp" />
 
         <com.google.android.material.chip.Chip
@@ -76,9 +76,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Done"
-            android:textColor="@color/slate_navy"
+            android:textColor="@color/text_primary"
             app:chipBackgroundColor="@color/white"
-            app:chipStrokeColor="@color/slate_navy"
+            app:chipStrokeColor="@color/text_primary"
             app:chipStrokeWidth="1dp" />
 
     </com.google.android.material.chip.ChipGroup>
@@ -107,7 +107,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:src="@drawable/ic_launcher_foreground"
-            app:tint="@color/taupe_mist"
+            app:tint="@color/stroke"
             android:contentDescription="Empty list" />
 
         <TextView
@@ -116,7 +116,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="No vaccines found"
-            android:textColor="@color/soft_graphite"
+            android:textColor="@color/text_secondary"
             android:textSize="16sp"
             android:fontFamily="@font/poppins_semibold"/>
     </LinearLayout>

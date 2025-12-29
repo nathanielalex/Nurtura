@@ -16,7 +16,6 @@
         android:layout_height="wrap_content"
         android:padding="16dp">
 
-        <!-- Icon Container -->
         <LinearLayout
             android:id="@+id/iconContainer"
             android:layout_width="48dp"
@@ -26,17 +25,14 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
-            <!-- bg_vaccine_icon: Oval shape, color #f4f7f9 -->
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@android:drawable/ic_menu_edit"
                 app:tint="#324355" />
-            <!-- Placeholder for Syringe Icon -->
         </LinearLayout>
 
-        <!-- Vaccine Name -->
         <TextView
             android:id="@+id/txtVaccineName"
             android:layout_width="0dp"
@@ -53,7 +49,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed" />
 
-        <!-- Due Date -->
         <TextView
             android:id="@+id/txtDueDate"
             android:layout_width="0dp"
@@ -70,13 +65,6 @@
             app:layout_constraintStart_toEndOf="@id/iconContainer"
             app:layout_constraintTop_toBottomOf="@+id/txtVaccineName" />
 
-        <!-- Status Badge -->
-        <!--
-           This TextView simulates a Chip.
-           For OVERDUE: backgroundTint="#ffebee" (Red), text="Overdue", textColor="#d32f2f"
-           For UPCOMING: backgroundTint="#e3f2fd" (Blue), text="Upcoming", textColor="#1976d2"
-           For DONE: backgroundTint="#e8f5e9" (Green), text="Done", textColor="#388e3c"
-        -->
         <TextView
             android:id="@+id/chipStatus"
             android:layout_width="wrap_content"

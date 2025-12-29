@@ -20,7 +20,7 @@
             android:background="@drawable/bg_received_bubble"
             android:padding="12dp"
             android:text="Hello!"
-            android:textColor="#324355"
+            android:textColor="@color/accent_primary"
             android:maxWidth="260dp"
             android:textSize="16sp" />
 
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:textSize="10sp"
             android:layout_marginTop="2dp"
-            android:textColor="#888888" />
+            android:textColor="@color/text_secondary" />
 
     </LinearLayout>
 
@@ -50,7 +50,7 @@
             android:background="@drawable/bg_sent_bubble"
             android:padding="12dp"
             android:text="Hi there!"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/text_primary"
             android:maxWidth="260dp"
             android:textSize="16sp" />
 
@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             android:textSize="10sp"
             android:layout_marginTop="2dp"
-            android:textColor="#888888" />
+            android:textColor="@color/text_secondary" />
 
     </LinearLayout>
 </LinearLayout>

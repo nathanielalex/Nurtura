@@ -136,18 +136,18 @@ public class ProfileFragment extends Fragment {
                     chip.setTag(child);
 
                     chip.setChipBackgroundColorResource(android.R.color.transparent);
-                    chip.setChipStrokeColorResource(R.color.hot_pink);
+                    chip.setChipStrokeColorResource(R.color.accent_primary);
                     chip.setChipStrokeWidth(3f);
-                    chip.setTextColor(getResources().getColor(R.color.slate_navy));
+                    chip.setTextColor(getResources().getColor(R.color.text_primary));
 
                     chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
                         if (isChecked) {
                             updateChildUI((Child) buttonView.getTag());
-                            chip.setChipBackgroundColorResource(R.color.hot_pink);
+                            chip.setChipBackgroundColorResource(R.color.accent_primary);
                             chip.setTextColor(getResources().getColor(R.color.white));
                         } else {
                             chip.setChipBackgroundColorResource(android.R.color.transparent);
-                            chip.setTextColor(getResources().getColor(R.color.slate_navy));
+                            chip.setTextColor(getResources().getColor(R.color.text_primary));
                         }
                     });
 

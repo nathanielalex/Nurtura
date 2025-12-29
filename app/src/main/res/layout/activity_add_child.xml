@@ -6,7 +6,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f8f9fa"
+    android:background="@color/background"
     android:fillViewport="true"
     tools:context=".AddChildActivity">
 
@@ -33,7 +33,7 @@
                 android:layout_marginEnd="4dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@android:drawable/ic_menu_close_clear_cancel"
-                app:tint="#324355"
+                app:tint="@color/text_secondary"
                 android:contentDescription="Close"
                 android:scaleType="centerInside"/>
 
@@ -41,9 +41,8 @@
                 android:id="@+id/tvPageTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
                 android:text="Add New Child"
-                android:textColor="#324355"
+                android:textColor="@color/accent_primary"
                 android:textSize="24sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -51,7 +50,7 @@
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@android:color/white"
+            app:cardBackgroundColor="@color/surface"
             app:cardCornerRadius="24dp"
             app:cardElevation="2dp"
             app:strokeWidth="0dp">
@@ -71,16 +70,14 @@
                     app:boxCornerRadiusBottomEnd="12dp"
                     app:boxCornerRadiusBottomStart="12dp"
                     app:boxCornerRadiusTopEnd="12dp"
-                    app:boxCornerRadiusTopStart="12dp"
-                    app:boxStrokeColor="#324355"
-                    app:hintTextColor="#324355">
+                    app:boxCornerRadiusTopStart="12dp">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etChildName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textPersonName"
-                        android:textColor="#324355" />
+                        android:textColor="@color/text_primary" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
@@ -89,7 +86,7 @@
                     android:layout_marginBottom="8dp"
                     android:layout_marginStart="4dp"
                     android:text="Gender"
-                    android:textColor="#324355"
+                    android:textColor="@color/text_primary"
                     android:textSize="14sp" />
 
                 <RadioGroup
@@ -104,17 +101,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="24dp"
-                        android:buttonTint="#c9e7ff"
+                        android:buttonTint="@color/accent_tertiary"
                         android:text="Boy"
-                        android:textColor="#324355" />
+                        android:textColor="@color/text_primary" />
 
                     <RadioButton
                         android:id="@+id/rbGirl"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:buttonTint="#fde0e9"
+                        android:buttonTint="@color/accent_secondary"
                         android:text="Girl"
-                        android:textColor="#324355" />
+                        android:textColor="@color/text_primary" />
                 </RadioGroup>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -130,7 +127,7 @@
                     app:boxCornerRadiusTopStart="12dp"
                     app:endIconDrawable="@android:drawable/ic_menu_my_calendar"
                     app:endIconMode="custom"
-                    app:endIconTint="#324355">
+                    app:endIconTint="@color/text_secondary">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etDob"
@@ -139,7 +136,7 @@
                         android:clickable="true"
                         android:focusable="false"
                         android:inputType="none"
-                        android:textColor="#324355" />
+                        android:textColor="@color/text_primary" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -160,7 +157,7 @@
                         android:inputType="none"
                         android:focusable="false"
                         android:clickable="true"
-                        android:textColor="#324355" />
+                        android:textColor="@color/text_primary" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <LinearLayout
@@ -181,14 +178,14 @@
                         app:boxCornerRadiusTopEnd="12dp"
                         app:boxCornerRadiusTopStart="12dp"
                         app:suffixText="kg"
-                        app:suffixTextColor="#888888">
+                        app:suffixTextColor="@color/text_primary">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etWeight"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="numberDecimal"
-                            android:textColor="#324355" />
+                            android:textColor="@color/text_primary" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -203,14 +200,14 @@
                         app:boxCornerRadiusTopEnd="12dp"
                         app:boxCornerRadiusTopStart="12dp"
                         app:suffixText="cm"
-                        app:suffixTextColor="#888888">
+                        app:suffixTextColor="@color/text_primary">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etHeight"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="numberDecimal"
-                            android:textColor="#324355" />
+                            android:textColor="@color/text_primary" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                 </LinearLayout>
@@ -226,7 +223,7 @@
                     app:boxCornerRadiusTopEnd="12dp"
                     app:boxCornerRadiusTopStart="12dp"
                     app:helperText="Separate multiple allergies with commas"
-                    app:helperTextTextColor="#888888">
+                    app:helperTextTextColor="@color/text_secondary">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etAllergies"
@@ -235,7 +232,7 @@
                         android:gravity="top|start"
                         android:inputType="textMultiLine"
                         android:minLines="3"
-                        android:textColor="#324355" />
+                        android:textColor="@color/text_primary" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.button.MaterialButton
@@ -245,10 +242,10 @@
                     android:layout_height="60dp"
                     android:text="Save Profile"
                     android:textAllCaps="false"
-                    android:textColor="#324355"
+                    android:textColor="@color/text_secondary"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    app:backgroundTint="#fde0e9"
+                    app:backgroundTint="@color/accent_secondary"
                     app:cornerRadius="30dp"
                     app:elevation="0dp" />
 

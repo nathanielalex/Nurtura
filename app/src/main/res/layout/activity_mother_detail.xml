@@ -6,7 +6,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/linen_white"
+    android:background="@color/background"
     android:fillViewport="true"
     tools:context=".MotherDetailActivity">
 
@@ -25,16 +25,16 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
             android:text="Mother Detail"
-            android:textColor="@color/slate_navy"/>
+            android:textColor="@color/accent_primary"/>
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            app:cardBackgroundColor="@color/white"
+            app:cardBackgroundColor="@color/surface"
             app:cardCornerRadius="24dp"
             app:cardElevation="4dp"
-            app:strokeColor="@color/taupe_mist"
+            app:strokeColor="@color/stroke"
             app:strokeWidth="1dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -46,13 +46,13 @@
                     android:id="@+id/imgAvatarMother"
                     android:layout_width="72dp"
                     android:layout_height="72dp"
-                    android:background="@color/taupe_mist"
+                    android:background="@color/transparent"
                     android:scaleType="centerCrop"
                     android:src="@android:drawable/ic_menu_myplaces"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
-                    app:tint="@color/soft_graphite" />
+                    app:tint="@color/accent_primary" />
 
                 <TextView
                     android:id="@+id/lblMotherRole"
@@ -64,7 +64,7 @@
                     android:letterSpacing="0.05"
                     android:text="MOTHER"
                     android:textAllCaps="true"
-                    android:textColor="@color/soft_graphite"
+                    android:textColor="@color/text_secondary"
                     android:textSize="12sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@id/imgAvatarMother"
@@ -78,7 +78,7 @@
                     android:layout_marginTop="4dp"
                     android:fontFamily="sans-serif-medium"
                     android:text="Maria Santos"
-                    android:textColor="@color/slate_navy"
+                    android:textColor="@color/text_primary"
                     android:textSize="20sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/imgAvatarMother"
@@ -110,8 +110,8 @@
                         android:layout_marginStart="8dp"
                         android:layout_weight="1"
                         android:text="Start Chat"
-                        android:textColor="@color/slate_navy"
-                        app:backgroundTint="@color/blue_pastel"/>
+                        android:textColor="@color/text_primary"
+                        app:backgroundTint="@color/accent_tertiary"/>
 
                 </LinearLayout>
 
@@ -124,7 +124,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:paddingBottom="16dp"
-            android:nestedScrollingEnabled="false" />
+            android:nestedScrollingEnabled="false"
+            tools:listitem="@layout/child_item_layout"/>
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

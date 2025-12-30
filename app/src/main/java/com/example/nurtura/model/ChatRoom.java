@@ -11,7 +11,6 @@ public class ChatRoom {
     private LastMessage lastMessage;
     private Timestamp createdAt;
 
-    // Inner class for the denormalized participant data
     public static class ParticipantInfo {
         public String name;
 
@@ -21,7 +20,6 @@ public class ChatRoom {
         }
     }
 
-    // Inner class for the last message summary
     public static class LastMessage {
         public String text;
         public String senderId;

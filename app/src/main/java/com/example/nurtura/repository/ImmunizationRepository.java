@@ -39,7 +39,6 @@ public class ImmunizationRepository {
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     List<Immunization> list = new ArrayList<>();
                     for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-                        // Converts JSON to your Java Object automatically
                         Immunization record = document.toObject(Immunization.class);
                         list.add(record);
                     }

@@ -40,7 +40,7 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ChildViewHol
             String formattedDate = sdf.format(dob);
             holder.txtChildBirth.setText(formattedDate);
         } else {
-            holder.txtChildBirth.setText("N/A"); // or empty string
+            holder.txtChildBirth.setText("N/A");
         }
     }
 

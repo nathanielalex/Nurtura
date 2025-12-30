@@ -66,7 +66,7 @@ public class ProfileFragment extends Fragment {
         btnEditChildInfo.setOnClickListener(v -> {
             if (currentSelectedChild != null) {
                 Intent intent = new Intent(getActivity(), AddChildActivity.class);
-                intent.putExtra("CHILD_ID", currentSelectedChild.getId()); // Pass ID to edit
+                intent.putExtra("CHILD_ID", currentSelectedChild.getId());
                 startActivity(intent);
             } else {
                 Toast.makeText(getContext(), "Please select a child first", Toast.LENGTH_SHORT).show();
@@ -171,7 +171,6 @@ public class ProfileFragment extends Fragment {
 
         List<String> allergies = child.getAllergies();
         if (allergies != null && !allergies.isEmpty()) {
-            // Join list into a string like "Peanuts, Dust, Milk"
             tvKnownAllergies.setText(TextUtils.join(", ", allergies));
         } else {
             tvKnownAllergies.setText("None");

@@ -98,7 +98,7 @@ public class ScheduleActivity extends AppCompatActivity {
                 chip.setChipBackgroundColorResource(R.color.white);
                 chip.setTextColor(getResources().getColor(R.color.text_primary));
                 chip.setChipStrokeColorResource(R.color.text_primary);
-                chip.setChipStrokeWidth(3f); // Approx 1dp
+                chip.setChipStrokeWidth(3f);
             }
         }
     }

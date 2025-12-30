@@ -121,7 +121,7 @@ public class MilestoneFragment extends Fragment {
                 if (item.isCompleted()) filteredList.add(item);
             }
             emptyText = "No completed vaccines yet";
-        } else { // R.id.chipFilterToDo (Default)
+        } else {
             for (Immunization item : allImmunizations) {
                 if (!item.isCompleted()) filteredList.add(item);
             }

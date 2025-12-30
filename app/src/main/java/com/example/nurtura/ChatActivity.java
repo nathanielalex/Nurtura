@@ -154,8 +154,6 @@ public class ChatActivity extends AppCompatActivity {
                 int friendlyMessageCount = adapter.getItemCount();
                 int lastVisiblePosition = manager.findLastCompletelyVisibleItemPosition();
 
-                // If the user is close to the bottom of the list or the list is loaded for the first time
-                // scroll to the bottom to show the new message
                 if (lastVisiblePosition == -1 ||
                         (positionStart >= (friendlyMessageCount - 1) && lastVisiblePosition == (positionStart - 1))) {
                     recyclerChatMessages.scrollToPosition(positionStart);

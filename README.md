@@ -1,44 +1,46 @@
 # 🌸 Nurtura
 
-**Nurtura** is an Android application designed for maternal and child health support. The app helps mothers care for themselves and their children by providing easy access to healthcare professionals, personalized immunization schedules, emergency assistance, and reliable health information.
-
-Built using **Java** and **XML**, Nurtura focuses on usability, reliability, and timely health interventions.
-
-Sure — here’s a cleaner, more consistent version with tighter language and aligned formatting. I kept the tone professional but friendly:
+**Nurtura** is an Android application focused on maternal and child health support. It empowers mothers to care for themselves and their children by providing direct access to healthcare professionals, personalized immunization tracking, emergency assistance, and trusted health resources.
 
 ---
 
-## 📱 Features
+## 🎥 Demo
+
+Video demo: `https://binusianorg-my.sharepoint.com/personal/nathaniel_alexander_binus_ac_id/_layouts/15/guestaccess.aspx?share=IQDKvVyzL9n6Tr82X3S3mS7sAU9q-y-Zg32yD3xVZQGL4iM&nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=ecNnAr`
+
+---
+
+## 📱 Key Features
 
 * 💬 **Real-Time Chat with Healthcare Professionals**
-  Secure, in-app messaging between mothers and qualified healthcare providers.
+  Secure in-app messaging between mothers and qualified healthcare staff.
 
 * 🔔 **Immunization Reminder Notifications**
-  Firebase-powered push notifications to help ensure children never miss important vaccinations.
+  Firebase-powered push notifications to ensure children never miss scheduled vaccinations.
 
 * 📅 **Personalized Immunization Schedules**
-  Automatically generated schedules based on each child’s date of birth.
+  Automatically generated vaccination timelines based on each child’s date of birth.
 
 * 🚨 **Emergency Assistance Button**
-  One-tap access to immediate support from a healthcare professional during urgent situations.
+  One-tap access to immediate support from healthcare professionals during urgent situations.
 
 * 📚 **Maternal & Child Health Resources**
-  Trusted articles and educational content to support mothers throughout pregnancy and childcare.
+  Curated articles and educational content supporting pregnancy and childcare.
 
 * 🧾 **Child Health Records**
-  Centralized storage for medical history, growth tracking, and health notes for each child.
+  Centralized storage for medical history, growth tracking, and health notes per child.
 
 * 🥗 **Healthy Recipe Recommendations**
   Nutritious meal ideas for mothers, powered by the Spoonacular API.
 
 * 🏥 **Staff Management Portal**
-  Healthcare staff can search and manage mother and child health records, including updating vaccination data.
+  Tools for healthcare staff to search, view, and update mother and child health records, including vaccination data.
 
 ---
 
 ## 👶 Multi-Child Support
 
-* A single mother account can **register multiple children**
+* One mother account can **register multiple children**
 * Each child has:
 
   * A unique profile
@@ -51,35 +53,104 @@ Sure — here’s a cleaner, more consistent version with tighter language and a
 
 * **Platform:** Android
 * **Language:** Java
-* **UI Design:** XML
-* **Backend Services:** Firebase
+* **UI:** XML
+* **Backend:** Firebase
 
   * Firebase Authentication
-  * Firebase Cloud Messaging (Push Notifications)
-  * Firebase Firestore (data storage)
+  * Firebase Firestore
+  * Firebase Cloud Messaging
 * **External API:** Spoonacular
 
 ---
 
-## 🏗️ Project Structure (Typical)
+## 🏗️ Project Structure
 
 ```
 Nurtura/
 ├── app/
 │   ├── java/com/example/nurtura/
-│   │   ├── activities/
-│   │   ├── adapters/
-│   │   ├── models/
-│   │   ├── services/
+│   │   ├── fragment/
+│   │   ├── adapter/
+│   │   ├── model/
+│   │   ├── repository/
 │   │   └── utils/
 │   └── res/
 │       ├── layout/
 │       ├── drawable/
 │       ├── values/
 │       └── xml/
-├── AndroidManifest.xml
-└── README.md
+└── AndroidManifest.xml
 ```
+
+---
+
+## 📲 Activities & Fragments
+
+### Authentication
+
+* **LoginActivity**
+  Email/password and Google Sign-In for mothers and staff.
+* **RegisterActivity**
+  Account creation for mothers.
+
+### Mother Features
+
+#### Home
+
+* **HomeFragment**
+
+  * Emergency panic call
+  * Health article navigation
+  * Upcoming immunization widget
+  * Healthy meal suggestions
+
+#### Articles & Recipes
+
+* **ArticleActivity** – List of health articles
+* **ArticleDetailActivity** – Full article view
+* **RecipeDetailActivity** – Recipe ingredients and preparation steps
+
+#### Children & Milestones
+
+* **MilestoneFragment** – Upcoming and completed vaccination schedules
+* **AddChildActivity** – Add or update child details (DOB, gender, blood type, etc.)
+
+#### Chat
+
+* **ChatFragment** – Conversation list
+* **ChatActivity** – Chat room between mothers and staff
+
+#### Profile
+
+* **ProfileFragment**
+
+  * Edit mother profile
+  * Register and manage children
+  * View child health records
+  * Sign out
+* **EditProfileActivity** – Update profile information
+
+### Staff Features
+
+#### Mother & Child Management
+
+* **SearchFragment** – Search mothers by email
+* **MotherDetailActivity**
+
+  * View mother profile
+  * Initiate chat
+  * View registered children
+* **StaffMotherProfileActivity** – Mother profile details
+* **StaffChildDetailActivity** – Child health data (height, weight, blood type, etc.)
+
+#### Vaccines
+
+* **VaccineFragment** – Vaccine list and information
+* **AddVaccineActivity** – Add new vaccines to the system
+
+#### Staff Profile
+
+* **StaffProfileFragment** – Staff account information
 
 ---
 
@@ -88,32 +159,23 @@ Nurtura/
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/Nurtura.git
+   git clone https://github.com/nathanielalex/Nurtura.git
    ```
 
 2. Open the project in **Android Studio**
 
-3. Connect Firebase:
+3. Configure Firebase:
 
    * Create a Firebase project
-   * Add your `google-services.json` file to the `app/` directory
-   * Enable Authentication, Firestore/Realtime Database, and Cloud Messaging
+   * Add `google-services.json` to the `app/` directory
+   * Enable Authentication, Firestore, and Cloud Messaging
 
 4. Build and run the app on an emulator or physical device
 
 ---
 
-## 🔐 Permissions Used
+## 🔐 Permissions
 
 * Internet access
-* Phone call permission (Emergency feature)
+* Phone call access (Emergency feature)
 * Notifications
-
----
-
-## 🎯 Target Users
-
-* Mothers and caregivers
-* Healthcare professionals supporting maternal and child health
-
----

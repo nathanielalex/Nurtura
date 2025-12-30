@@ -4,27 +4,35 @@
 
 Built using **Java** and **XML**, Nurtura focuses on usability, reliability, and timely health interventions.
 
+Sure — here’s a cleaner, more consistent version with tighter language and aligned formatting. I kept the tone professional but friendly:
+
 ---
 
 ## 📱 Features
 
-* 💬 **Chat with Healthcare Professionals**
-  Secure communication between mothers and qualified healthcare providers.
+* 💬 **Real-Time Chat with Healthcare Professionals**
+  Secure, in-app messaging between mothers and qualified healthcare providers.
 
-* 🔔 **Push Notifications for Immunization Reminders**
-  Firebase-powered notifications to ensure children never miss important vaccinations.
+* 🔔 **Immunization Reminder Notifications**
+  Firebase-powered push notifications to help ensure children never miss important vaccinations.
 
-* 📅 **Personalized Immunization Schedule**
+* 📅 **Personalized Immunization Schedules**
   Automatically generated schedules based on each child’s date of birth.
 
-* 🚨 **Emergency Button**
-  One-tap emergency call to a healthcare professional during urgent situations.
+* 🚨 **Emergency Assistance Button**
+  One-tap access to immediate support from a healthcare professional during urgent situations.
 
-* 📚 **Maternal & Child Health Articles**
-  Access trusted educational content to support mothers throughout pregnancy and childcare.
+* 📚 **Maternal & Child Health Resources**
+  Trusted articles and educational content to support mothers throughout pregnancy and childcare.
 
-* 🧾 **Child Health History Records**
-  Maintain medical history, growth details, and health notes for each child.
+* 🧾 **Child Health Records**
+  Centralized storage for medical history, growth tracking, and health notes for each child.
+
+* 🥗 **Healthy Recipe Recommendations**
+  Nutritious meal ideas for mothers, powered by the Spoonacular API.
+
+* 🏥 **Staff Management Portal**
+  Healthcare staff can search and manage mother and child health records, including updating vaccination data.
 
 ---
 
@@ -48,7 +56,8 @@ Built using **Java** and **XML**, Nurtura focuses on usability, reliability, and
 
   * Firebase Authentication
   * Firebase Cloud Messaging (Push Notifications)
-  * Firebase Realtime Database / Firestore (data storage)
+  * Firebase Firestore (data storage)
+* **External API:** Spoonacular
 
 ---
 

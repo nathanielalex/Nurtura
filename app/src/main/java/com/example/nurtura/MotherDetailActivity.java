@@ -1,5 +1,6 @@
 package com.example.nurtura;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -40,7 +41,7 @@ public class MotherDetailActivity extends AppCompatActivity {
     ChatRepository chatRepository;
     User mother;
     TextView txtMotherName;
-    Button btnStartChat;
+    Button btnStartChat, btnSeeProfile;
     String motherId, motherName, staffId, staffName;
 
     @Override
@@ -61,6 +62,7 @@ public class MotherDetailActivity extends AppCompatActivity {
         userRepository = new UserRepository();
         txtMotherName = findViewById(R.id.txtMotherName);
         btnStartChat = findViewById(R.id.btnStartChat);
+        btnSeeProfile = findViewById(R.id.btnSeeProfile);
         chatRepository = new ChatRepository();
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -127,6 +129,12 @@ public class MotherDetailActivity extends AppCompatActivity {
         btnStartChat.setOnClickListener(v -> {
             chatRepository.initChatRoom(staffId, motherId, staffName, motherName);
             Toast.makeText(getApplicationContext(), "Successfully create chat room", Toast.LENGTH_SHORT).show();
+        });
+
+        btnSeeProfile.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), StaffMotherProfileActivity.class);
+            intent.putExtra("EXTRA_MOTHER_ID", userId);
+            v.getContext().startActivity(intent);
         });
 
         ImageButton btnBack = findViewById(R.id.btnBack);

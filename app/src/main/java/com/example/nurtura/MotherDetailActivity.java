@@ -20,6 +20,8 @@ import com.example.nurtura.adapter.ChildAdapter;
 import com.example.nurtura.adapter.StaffChildAdapter;
 import com.example.nurtura.auth.AuthRepository;
 import com.example.nurtura.auth.UserRepository;
+import com.example.nurtura.fragment.ChatFragment;
+import com.example.nurtura.fragment.StaffChatFragment;
 import com.example.nurtura.model.Child;
 import com.example.nurtura.model.User;
 import com.example.nurtura.repository.ChatRepository;

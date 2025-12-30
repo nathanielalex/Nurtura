@@ -67,7 +67,6 @@ public class AddChildActivity extends AppCompatActivity {
         vaccineRepository = new VaccineRepository();
         calendar = Calendar.getInstance();
 
-        // Bind Views
         etName = findViewById(R.id.etChildName);
         etDob = findViewById(R.id.etDob);
         etWeight = findViewById(R.id.etWeight);

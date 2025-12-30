@@ -2,7 +2,6 @@ package com.example.nurtura;
 
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -19,7 +18,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class EditProfile extends AppCompatActivity {
+public class EditProfileActivity extends AppCompatActivity {
 
     private EditText etFullName, etEmail;
     private Button btnSave;
@@ -30,13 +29,7 @@ public class EditProfile extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_edit_profile);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -82,7 +75,7 @@ public class EditProfile extends AppCompatActivity {
                     } else {
                         btnSave.setEnabled(true);
                         btnSave.setText("Save Changes");
-                        Toast.makeText(EditProfile.this, "Failed to update profile.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditProfileActivity.this, "Failed to update profile.", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -91,12 +84,11 @@ public class EditProfile extends AppCompatActivity {
         db.collection("users").document(uid)
                 .update("name", newName)
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(EditProfile.this, "Profile Updated!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditProfileActivity.this, "Profile Updated!", Toast.LENGTH_SHORT).show();
                     finish();
                 })
                 .addOnFailureListener(e -> {
-                    // Even if Firestore fails, Auth might have succeeded, but let's warn
-                    Toast.makeText(EditProfile.this, "Updated Auth, but failed to sync DB.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditProfileActivity.this, "Updated Auth, but failed to sync DB.", Toast.LENGTH_SHORT).show();
                     finish();
                 });
     }

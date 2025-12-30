@@ -1,6 +1,7 @@
 package com.example.nurtura;
 
 import android.os.Bundle;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -31,6 +32,11 @@ public class RecipeDetailActivity extends AppCompatActivity {
         TextView timeView = findViewById(R.id.txtReadyTime);
         TextView ingredientsView = findViewById(R.id.txtIngredientsList);
         TextView instructionsView = findViewById(R.id.txtInstructionsList);
+        ImageButton btnBack = findViewById(R.id.btnBack);
+
+        btnBack.setOnClickListener(v -> {
+            finish();
+        });
 
         Recipe recipe = (Recipe) getIntent().getSerializableExtra("recipe_data");
 

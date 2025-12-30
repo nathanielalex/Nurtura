@@ -15,7 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.nurtura.AddChildActivity;
-import com.example.nurtura.EditProfile;
+import com.example.nurtura.EditProfileActivity;
 import com.example.nurtura.LoginActivity;
 import com.example.nurtura.R;
 import com.example.nurtura.auth.UserRepository;
@@ -54,7 +54,7 @@ public class ProfileFragment extends Fragment {
         childRepository = new ChildRepository();
         userRepository = new UserRepository();
 
-        btnEditMother.setOnClickListener(v -> startActivity(new Intent(getActivity(), EditProfile.class)));
+        btnEditMother.setOnClickListener(v -> startActivity(new Intent(getActivity(), EditProfileActivity.class)));
         btnAddChild.setOnClickListener(v -> startActivity(new Intent(getActivity(), AddChildActivity.class)));
 
         btnSignOut.setOnClickListener(v -> {

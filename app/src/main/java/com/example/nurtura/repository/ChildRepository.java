@@ -74,6 +74,18 @@ public class ChildRepository {
         }
     }
 
+    public void saveSingularSchedule(String childId, Map<String, Object> schedule) {
+        if (childId == null || schedule == null) {
+            return;
+        }
+
+        schedule.put("isCompleted", false);
+
+        db.collection("children").document(childId)
+                .collection("immunizations")
+                .add(schedule);
+    }
+
     public void getImmunizationSchedule(String childId, final ScheduleCallback callback) {
         db.collection("children")
                 .document(childId)
@@ -152,6 +164,21 @@ public class ChildRepository {
         db.collection("children").document(childId)
                 .update(updates)
                 .addOnSuccessListener(aVoid -> callback.onSuccess("Updated"))
+                .addOnFailureListener(callback::onFailure);
+    }
+
+    public void getAllChildren(ChildrenCallback callback) {
+        db.collection("children")
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    List<Child> children = new ArrayList<>();
+                    for (QueryDocumentSnapshot doc : querySnapshot) {
+                        Child child = doc.toObject(Child.class);
+                        child.setId(doc.getId());
+                        children.add(child);
+                    }
+                    callback.onSuccess(children);
+                })
                 .addOnFailureListener(callback::onFailure);
     }
 }

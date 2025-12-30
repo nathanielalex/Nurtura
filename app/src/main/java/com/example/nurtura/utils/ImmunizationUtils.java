@@ -63,4 +63,46 @@ public class ImmunizationUtils {
         }
         return results;
     }
+
+    public static Immunization generateSingularSchedule(Date childDob, Vaccine vaccine) {
+        if (childDob == null || vaccine == null) {
+            return null;
+        }
+
+        Date today = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
+
+        Date dueDate = calculateDueDate(childDob, vaccine.getRecommendedAgeInMonthsInt());
+        if (dueDate == null) {
+            return null;
+        }
+
+        String status;
+        long diffInMillis = dueDate.getTime() - today.getTime();
+        long daysDiff = TimeUnit.DAYS.convert(diffInMillis, TimeUnit.MILLISECONDS);
+
+        if (daysDiff < 0) {
+            status = "Overdue (" + Math.abs(daysDiff) + " days ago)";
+        } else if (daysDiff == 0) {
+            status = "Due Today";
+        } else if (daysDiff <= 14) {
+            status = "Due in " + daysDiff + " days";
+        } else {
+            status = "Upcoming";
+        }
+
+        String scheduleLabel = (vaccine.getRecommendedAgeInMonthsInt() == 0)
+                ? "At Birth"
+                : "Month " + vaccine.getRecommendedAgeInMonthsInt();
+
+        return new Immunization(
+                null,
+                vaccine.getName(),
+                scheduleLabel,
+                status,
+                sdf.format(dueDate),
+                false
+        );
+    }
+
 }

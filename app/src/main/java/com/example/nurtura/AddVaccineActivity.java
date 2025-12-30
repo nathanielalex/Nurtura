@@ -10,12 +10,24 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.nurtura.databinding.ActivityAddVaccineBinding;
+import com.example.nurtura.model.Child;
+import com.example.nurtura.model.Immunization;
 import com.example.nurtura.model.Vaccine;
+import com.example.nurtura.repository.ChildRepository;
 import com.example.nurtura.repository.VaccineRepository;
+import com.example.nurtura.utils.ImmunizationUtils;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 public class AddVaccineActivity extends AppCompatActivity {
     private ActivityAddVaccineBinding binding;
     private VaccineRepository vaccineRepository;
+    private ChildRepository childRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +42,7 @@ public class AddVaccineActivity extends AppCompatActivity {
         });
 
         vaccineRepository = new VaccineRepository();
+        childRepository = new ChildRepository();
 
         binding.btnSaveVaccine.setOnClickListener(v -> {
             String vaccineName = binding.etVaccineName.getText() != null
@@ -74,6 +87,26 @@ public class AddVaccineActivity extends AppCompatActivity {
             vaccineRepository.insertVaccine(vaccine, new VaccineRepository.InsertCallback() {
                 @Override
                 public void onSuccess() {
+                    childRepository.getAllChildren(new ChildRepository.ChildrenCallback() {
+                        @Override
+                        public void onSuccess(List<Child> children) {
+                            for (Child child: children) {
+                                Date dob = child.getDateOfBirth();
+                                Immunization schedule = ImmunizationUtils.generateSingularSchedule(dob, vaccine);
+                                Map<String, Object> map = new HashMap<>();
+                                map.put("vaccineName", schedule.getName());
+                                map.put("dueDate", schedule.getDate() != null ? parseDate(schedule.getDate()) : null);
+                                map.put("status", "Scheduled");
+                                childRepository.saveSingularSchedule(child.getId(), map);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Exception e) {
+                            Toast.makeText(AddVaccineActivity.this, "Failed to update immunization schedules",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
                     Toast.makeText(AddVaccineActivity.this, "Successfully inserted vaccine", Toast.LENGTH_SHORT).show();
                     finish();
                 }
@@ -84,5 +117,18 @@ public class AddVaccineActivity extends AppCompatActivity {
                 }
             });
         });
+    }
+    private Date parseDate(String dateStr) {
+        try {
+            return new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).parse(dateStr);
+        } catch (Exception e) {
+            return new Date();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        binding = null;
     }
 }

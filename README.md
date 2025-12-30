@@ -2,11 +2,21 @@
 
 **Nurtura** is an Android application focused on maternal and child health support. It empowers mothers to care for themselves and their children by providing direct access to healthcare professionals, personalized immunization tracking, emergency assistance, and trusted health resources.
 
+🎥 **Video Demo:** [Watch here](https://binusianorg-my.sharepoint.com/personal/nathaniel_alexander_binus_ac_id/_layouts/15/guestaccess.aspx?share=IQDKvVyzL9n6Tr82X3S3mS7sAU9q-y-Zg32yD3xVZQGL4iM&nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=VKZVHW)
+
 ---
 
-## 🎥 Demo
+## 📑 Table of Contents
 
-Video demo: `https://binusianorg-my.sharepoint.com/personal/nathaniel_alexander_binus_ac_id/_layouts/15/guestaccess.aspx?share=IQDKvVyzL9n6Tr82X3S3mS7sAU9q-y-Zg32yD3xVZQGL4iM&nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=ecNnAr`
+- [Key Features](#-key-features)
+- [Multi-Child Support](#-multi-child-support)
+- [Tech Stack](#-tech-stack)
+- [Project Structure](#-project-structure)
+- [Activities & Fragments](#-activities--fragments)
+  - [Authentication](#authentication)
+  - [Mother Features](#mother-features)
+  - [Staff Features](#staff-features)
+- [Setup & Installation](#-setup--installation)
 
 ---
 

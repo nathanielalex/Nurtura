@@ -36,7 +36,6 @@ public class StaffChildAdapter extends RecyclerView.Adapter<StaffChildAdapter.St
 
     @Override
     public void onBindViewHolder(@NonNull StaffChildViewHolder holder, int position) {
-        //nanti ada bedanya di intent
         holder.txtChildName.setText(childs.get(position).getName());
         Date dob = childs.get(position).getDateOfBirth();
         if (dob != null) {
@@ -46,10 +45,11 @@ public class StaffChildAdapter extends RecyclerView.Adapter<StaffChildAdapter.St
         } else {
             holder.txtChildBirth.setText("N/A");
         }
-        holder.btnEditInformationStaff.setOnClickListener(v -> {
+        holder.btnDetailChild.setOnClickListener(v -> {
+            String childId = childs.get(position).getId();
             Intent intent = new Intent(v.getContext(), StaffChildDetailActivity.class);
+            intent.putExtra("EXTRA_CHILD_ID", childId);
             v.getContext().startActivity(intent);
-
         });
     }
 
@@ -61,13 +61,13 @@ public class StaffChildAdapter extends RecyclerView.Adapter<StaffChildAdapter.St
     public static class StaffChildViewHolder extends RecyclerView.ViewHolder {
         public TextView txtChildName;
         public TextView txtChildBirth;
-        public Button btnEditInformationStaff;
+        public Button btnDetailChild;
 
         public StaffChildViewHolder(View itemView) {
             super(itemView);
             txtChildName = itemView.findViewById(R.id.txtChildName);
             txtChildBirth = itemView.findViewById(R.id.txtChildBirth);
-            btnEditInformationStaff = itemView.findViewById(R.id.btnEditChild);
+            btnDetailChild = itemView.findViewById(R.id.btnDetailChild);
         }
 
     }

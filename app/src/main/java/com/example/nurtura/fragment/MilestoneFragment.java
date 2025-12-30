@@ -10,19 +10,15 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nurtura.R;
-import com.example.nurtura.ScheduleActivity;
 import com.example.nurtura.adapter.ImmunizationAdapter;
-import com.example.nurtura.adapter.VaccineScheduleAdapter;
 import com.example.nurtura.model.Child;
 import com.example.nurtura.model.Immunization;
 import com.example.nurtura.repository.ChildRepository;
-import com.example.nurtura.repository.ImmunizationRepository;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.Timestamp;
@@ -100,13 +96,13 @@ public class MilestoneFragment extends Fragment {
 
             if (chip.getId() == checkedId) {
                 chip.setChipBackgroundColorResource(R.color.accent_primary);
-                chip.setTextColor(getResources().getColor(R.color.white));
+                chip.setTextColor(getResources().getColor(R.color.surface));
                 chip.setChipStrokeWidth(0f);
             } else {
-                chip.setChipBackgroundColorResource(R.color.white);
+                chip.setChipBackgroundColorResource(R.color.surface);
                 chip.setTextColor(getResources().getColor(R.color.text_primary));
                 chip.setChipStrokeColorResource(R.color.text_primary);
-                chip.setChipStrokeWidth(3f); // Approx 1dp
+                chip.setChipStrokeWidth(3f);
             }
         }
     }
@@ -196,7 +192,7 @@ public class MilestoneFragment extends Fragment {
                             currentChildId = (String) buttonView.getTag();
                             loadScheduleForChild(currentChildId);
                             chip.setChipBackgroundColorResource(R.color.accent_primary);
-                            chip.setTextColor(getResources().getColor(R.color.white));
+                            chip.setTextColor(getResources().getColor(R.color.text_primary));
                         } else {
                             chip.setChipBackgroundColorResource(android.R.color.transparent);
                             chip.setTextColor(getResources().getColor(R.color.text_primary));

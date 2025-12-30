@@ -85,7 +85,12 @@ public class HomeFragment extends Fragment {
 
         cardHealthRubric.setOnClickListener(v -> startActivity(new Intent(getActivity(), ArticleActivity.class)));
 
-        btnViewSchedule.setOnClickListener(v -> startActivity(new Intent(getActivity(), ScheduleActivity.class)));
+        btnViewSchedule.setOnClickListener(v -> {
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new MilestoneFragment())
+                    .addToBackStack(null)
+                    .commit();
+        });
 
         recipeService = new RecipeService(requireContext());
         tvRecipeTitle = view.findViewById(R.id.tvRecipeTitle);

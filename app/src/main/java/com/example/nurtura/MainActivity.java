@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
                     String token = task.getResult();
 
                     Log.d("FCM", "Token: " + token);
-                    Toast.makeText(MainActivity.this, "Token: " + token, Toast.LENGTH_LONG).show();
+//                    Toast.makeText(MainActivity.this, "Token: " + token, Toast.LENGTH_LONG).show();
 
                     if (FirebaseAuth.getInstance().getCurrentUser() != null) {
                         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();

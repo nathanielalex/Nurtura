@@ -4,21 +4,25 @@
     <item
         android:id="@+id/nav_search"
         android:title="Search"
-        android:icon="@android:drawable/ic_menu_view" />
+        android:icon="@drawable/outline_person_search_24"
+        android:iconTint="@color/text_primary"/>
 
     <item
         android:id="@+id/nav_vaccine"
         android:title="Vaccine"
-        android:icon="@android:drawable/ic_menu_my_calendar" />
+        android:icon="@drawable/outline_mixture_med_24"
+        android:iconTint="@color/text_primary"/>
 
     <item
         android:id="@+id/nav_chat_staff"
         android:title="Chat"
-        android:icon="@android:drawable/ic_menu_call" />
+        android:icon="@drawable/outline_chat_bubble_24"
+        android:iconTint="@color/text_primary"/>
 
     <item
         android:id="@+id/nav_profile_staff"
         android:title="Profile"
-        android:icon="@android:drawable/ic_menu_myplaces" />
+        android:icon="@drawable/outline_person_24"
+        android:iconTint="@color/text_primary"/>
 
 </menu>

@@ -9,7 +9,7 @@
     <item
         android:id="@+id/nav_milestone"
         android:title="Milestone"
-        android:icon="@android:drawable/ic_menu_my_calendar" />
+        android:icon="@drawable/outline_calendar_today_24" />
 
     <item
         android:id="@+id/nav_chat"
@@ -19,6 +19,6 @@
     <item
         android:id="@+id/nav_profile"
         android:title="Profile"
-        android:icon="@android:drawable/ic_menu_myplaces" />
+        android:icon="@drawable/outline_person_24" />
 
 </menu>

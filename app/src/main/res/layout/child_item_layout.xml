@@ -69,14 +69,14 @@
         </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnEditChild"
+            android:id="@+id/btnDetailChild"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            android:text="Edit Information"
+            android:text="View Detail"
             android:textAllCaps="false"
             android:textColor="@color/accent_primary"
             app:backgroundTint="@color/accent_secondary"

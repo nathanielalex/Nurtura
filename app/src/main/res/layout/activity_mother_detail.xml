@@ -19,13 +19,33 @@
         android:paddingEnd="20dp"
         android:paddingBottom="24dp">
 
-        <TextView
-            style="@style/Widget.Nurtura.TextView.Title"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/headerContainer"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:text="Mother Detail"
-            android:textColor="@color/accent_primary"/>
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp">
+
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="4dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_back_arrow"
+                app:tint="@color/text_secondary"
+                android:contentDescription="Back"
+                android:scaleType="centerInside"/>
+
+            <TextView
+                style="@style/Widget.Nurtura.TextView.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mother Detail"
+                android:textColor="@color/accent_primary"
+                android:includeFontPadding="false"/>
+        </LinearLayout>
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
